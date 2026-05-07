@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tail & Tea — The Curated Private Library</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=EB+Garamond:ital,wght@0,400;1,400&family=Cinzel:wght@400;600&display=swap"
+        rel="stylesheet" />
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --navy: #0A0E14;
+            --navy2: #0f1520;
+            --mid: #1B2735;
+            --gold: #E8B072;
+            --gold2: #c8903a;
+            --gold3: #f5cfa0;
+            --cream: #f0e6d0;
+            --muted: rgba(232, 176, 114, 0.45);
+            --glass: rgba(10, 14, 20, 0.72);
+        }
+
+        html,
+        body {
+            width: 100%;
+            min-height: 100vh;
+            background: var(--navy);
+            color: var(--cream);
+            font-family: 'EB Garamond', serif;
+            overflow-x: hidden;
+        }
+
+        /* ── LIBRARY BACKGROUND ── */
+        .scene {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow: hidden;
+            background:
+                radial-gradient(ellipse 60% 55% at 50% 38%, rgba(232, 160, 50, 0.13) 0%, transparent 70%),
+                radial-gradient(ellipse 100% 60% at 50% 100%, rgba(27, 39, 53, 0.9) 0%, transparent 70%),
+                linear-gradient(180deg, #060A10 0%, #0D1520 35%, #111926 65%, #08111C 100%);
+        }
+
+        /* SVG library illustration layered behind */
+        .library-svg {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            opacity: 0.88;
+        }
+
+        /* Grain overlay */
+        .scene::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* ── HEADER / NAV ── */
+        nav {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 4rem;
+            border-bottom: 0.5px solid rgba(232, 176, 114, 0.15);
+        }
+
+        .nav-wordmark {
+            font-family: 'Cinzel', serif;
+            font-size: 13px;
+            letter-spacing: 0.32em;
+            color: var(--muted);
+            text-transform: uppercase;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.8rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-family: 'Cinzel', serif;
+            font-size: 10.5px;
+            letter-spacing: 0.26em;
+            color: rgba(240, 230, 208, 0.5);
+            text-decoration: none;
+            text-transform: uppercase;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--gold);
+        }
+
+        /* ── EDITOR'S SELECTION CARD (top-left) ── */
+        .editor-card {
+            position: absolute;
+            top: 7.5rem;
+            left: 3.5rem;
+            z-index: 10;
+            width: 210px;
+            border: 0.5px solid rgba(232, 176, 114, 0.35);
+            background: var(--glass);
+            padding: 1.3rem 1.4rem;
+            backdrop-filter: blur(4px);
+            animation: fadeSlideLeft 1.4s ease 0.6s both;
+        }
+
+        .editor-card::before {
+            content: '';
+            position: absolute;
+            inset: 4px;
+            border: 0.5px solid rgba(232, 176, 114, 0.12);
+            pointer-events: none;
+        }
+
+        .editor-label {
+            font-family: 'Cinzel', serif;
+            font-size: 8.5px;
+            letter-spacing: 0.3em;
+            color: var(--gold);
+            text-transform: uppercase;
+            margin-bottom: 0.8rem;
+        }
+
+        .editor-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 14px;
+            font-style: italic;
+            color: var(--cream);
+            margin-bottom: 0.5rem;
+            line-height: 1.4;
+        }
+
+        .editor-meta {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 11px;
+            color: rgba(240, 230, 208, 0.45);
+            letter-spacing: 0.1em;
+        }
+
+        .editor-divider {
+            width: 32px;
+            height: 0.5px;
+            background: var(--gold2);
+            margin: 0.75rem 0;
+            opacity: 0.5;
+        }
+
+        /* ── HERO CENTER ── */
+        .hero {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 6rem 2rem 4rem;
+            flex: 1;
+        }
+
+        .overline {
+            font-family: 'Cinzel', serif;
+            font-size: 9.5px;
+            letter-spacing: 0.42em;
+            color: var(--gold);
+            text-transform: uppercase;
+            margin-bottom: 1.8rem;
+            opacity: 0;
+            animation: fadeUp 1s ease 0.3s forwards;
+        }
+
+        .brand-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(72px, 10vw, 120px);
+            font-style: italic;
+            font-weight: 400;
+            color: var(--gold3);
+            line-height: 0.92;
+            letter-spacing: -0.01em;
+            margin-bottom: 0.4rem;
+            opacity: 0;
+            animation: fadeUp 1.1s ease 0.5s forwards;
+            text-shadow: 0 2px 40px rgba(232, 176, 114, 0.25);
+        }
+
+        .brand-amp {
+            color: var(--gold);
+            font-style: normal;
+        }
+
+        .sub-headline {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(9px, 1.2vw, 12px);
+            letter-spacing: 0.5em;
+            color: rgba(232, 176, 114, 0.65);
+            text-transform: uppercase;
+            margin-bottom: 2.5rem;
+            opacity: 0;
+            animation: fadeUp 1.1s ease 0.75s forwards;
+        }
+
+        .ornament {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2.4rem;
+            opacity: 0;
+            animation: fadeUp 1s ease 0.9s forwards;
+        }
+
+        .ornament-line {
+            width: 60px;
+            height: 0.5px;
+            background: linear-gradient(90deg, transparent, var(--gold2));
+        }
+
+        .ornament-line.right {
+            background: linear-gradient(90deg, var(--gold2), transparent);
+        }
+
+        .ornament-diamond {
+            width: 5px;
+            height: 5px;
+            background: var(--gold);
+            transform: rotate(45deg);
+        }
+
+        .motto {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(14px, 1.6vw, 18px);
+            font-style: italic;
+            font-weight: 300;
+            color: rgba(240, 230, 208, 0.62);
+            max-width: 520px;
+            line-height: 1.7;
+            margin-bottom: 3rem;
+            opacity: 0;
+            animation: fadeUp 1s ease 1.05s forwards;
+        }
+
+        /* ── BUTTONS ── */
+        .btn-group {
+            display: flex;
+            gap: 1.4rem;
+            margin-bottom: 4rem;
+            opacity: 0;
+            animation: fadeUp 1s ease 1.2s forwards;
+        }
+
+        .btn {
+            font-family: 'Cinzel', serif;
+            font-size: 10px;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            padding: 0.95rem 2.4rem;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.35s ease;
+            display: inline-block;
+        }
+
+        .btn-solid {
+            background: linear-gradient(135deg, #c8903a 0%, #e8b072 50%, #c8903a 100%);
+            color: #0A0E14;
+            font-weight: 600;
+            box-shadow: 0 0 28px rgba(232, 176, 114, 0.28), 0 0 60px rgba(232, 176, 114, 0.1);
+        }
+
+        .btn-solid:hover {
+            box-shadow: 0 0 40px rgba(232, 176, 114, 0.45), 0 0 80px rgba(232, 176, 114, 0.2);
+            transform: translateY(-1px);
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--gold);
+            border: 0.5px solid rgba(232, 176, 114, 0.55);
+        }
+
+        .btn-ghost:hover {
+            background: rgba(232, 176, 114, 0.07);
+            border-color: var(--gold);
+        }
+
+        /* ── ESTABLISHED (bottom right) ── */
+        .established {
+            position: absolute;
+            bottom: 2.4rem;
+            right: 3.5rem;
+            z-index: 10;
+            text-align: right;
+            opacity: 0;
+            animation: fadeSlideRight 1.4s ease 1.4s both;
+        }
+
+        .est-label {
+            font-family: 'Cinzel', serif;
+            font-size: 8px;
+            letter-spacing: 0.35em;
+            color: rgba(232, 176, 114, 0.35);
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        .est-numeral {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 13px;
+            letter-spacing: 0.18em;
+            color: rgba(232, 176, 114, 0.5);
+        }
+
+        /* ── CANDLE GLOW ── */
+        .candle-glow {
+            position: absolute;
+            top: 30%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(ellipse, rgba(232, 140, 40, 0.06) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 2;
+            animation: flicker 4s ease-in-out infinite;
+        }
+
+        @keyframes flicker {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: translateX(-50%) scale(1);
+            }
+
+            33% {
+                opacity: 0.85;
+                transform: translateX(-50%) scale(1.04);
+            }
+
+            66% {
+                opacity: 0.92;
+                transform: translateX(-50%) scale(0.97);
+            }
+        }
+
+        /* ── FOOTER STRIP ── */
+        footer {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            padding: 1.5rem 4rem;
+            border-top: 0.5px solid rgba(232, 176, 114, 0.12);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-copy {
+            font-family: 'Cinzel', serif;
+            font-size: 8.5px;
+            letter-spacing: 0.25em;
+            color: rgba(232, 176, 114, 0.25);
+            text-transform: uppercase;
+        }
+
+        .footer-dots {
+            display: flex;
+            gap: 8px;
+        }
+
+        .footer-dot {
+            width: 4px;
+            height: 4px;
+            background: rgba(232, 176, 114, 0.2);
+            border-radius: 50%;
+        }
+
+        /* ── ANIMATIONS ── */
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(18px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeSlideLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeSlideRight {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="scene">
+
+        <!-- ── SVG LIBRARY ILLUSTRATION ── -->
+        <svg class="library-svg" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice"
+            xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <radialGradient id="chanGlow" cx="50%" cy="42%" r="28%">
+                    <stop offset="0%" stop-color="#E8A030" stop-opacity="0.22" />
+                    <stop offset="100%" stop-color="#E8A030" stop-opacity="0" />
+                </radialGradient>
+                <radialGradient id="moonGlow" cx="72%" cy="8%" r="18%">
+                    <stop offset="0%" stop-color="#8BB4D8" stop-opacity="0.18" />
+                    <stop offset="100%" stop-color="#8BB4D8" stop-opacity="0" />
+                </radialGradient>
+                <radialGradient id="fireGlow" cx="50%" cy="92%" r="20%">
+                    <stop offset="0%" stop-color="#E06020" stop-opacity="0.20" />
+                    <stop offset="100%" stop-color="#E06020" stop-opacity="0" />
+                </radialGradient>
+                <linearGradient id="floorGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#0f1a28" />
+                    <stop offset="100%" stop-color="#060e18" />
+                </linearGradient>
+                <linearGradient id="wallGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#0c1420" />
+                    <stop offset="100%" stop-color="#141e2e" />
+                </linearGradient>
+                <filter id="blur8">
+                    <feGaussianBlur stdDeviation="8" />
+                </filter>
+                <filter id="blur3">
+                    <feGaussianBlur stdDeviation="3" />
+                </filter>
+                <filter id="glow6">
+                    <feGaussianBlur stdDeviation="6" result="blur" />
+                    <feMerge>
+                        <feMergeNode in="blur" />
+                        <feMergeNode in="SourceGraphic" />
+                    </feMerge>
+                </filter>
+            </defs>
+
+            <!-- Ambient background -->
+            <rect width="1440" height="900" fill="url(#wallGrad)" />
+
+            <!-- Moon atmosphere (top right) -->
+            <ellipse cx="1040" cy="80" rx="260" ry="160" fill="url(#moonGlow)" />
+            <!-- Moon disk -->
+            <circle cx="1038" cy="60" r="44" fill="#8AB2CC" opacity="0.12" filter="url(#blur3)" />
+            <circle cx="1038" cy="60" r="26" fill="#C8DCF0" opacity="0.14" />
+
+            <!-- Arched windows (2) -->
+            <!-- Window left -->
+            <path d="M240,80 Q240,30 290,30 Q340,30 340,80 L340,480 L240,480 Z" fill="#060E1A" opacity="0.6" />
+            <path d="M248,85 Q248,40 290,40 Q332,40 332,85 L332,472 L248,472 Z" fill="#0A1628" opacity="0.5" />
+            <!-- Window panes left -->
+            <line x1="290" y1="40" x2="290" y2="472" stroke="#1B2E44" stroke-width="1" opacity="0.7" />
+            <line x1="248" y1="260" x2="332" y2="260" stroke="#1B2E44" stroke-width="1" opacity="0.7" />
+            <line x1="248" y1="356" x2="332" y2="356" stroke="#1B2E44" stroke-width="1" opacity="0.7" />
+            <!-- Moon glow through left window -->
+            <ellipse cx="290" cy="200" rx="50" ry="80" fill="#1A3055" opacity="0.18" filter="url(#blur8)" />
+
+            <!-- Window right -->
+            <path d="M1100,80 Q1100,30 1150,30 Q1200,30 1200,80 L1200,480 L1100,480 Z" fill="#060E1A" opacity="0.6" />
+            <path d="M1108,85 Q1108,40 1150,40 Q1192,40 1192,85 L1192,472 L1108,472 Z" fill="#0A1628" opacity="0.5" />
+            <line x1="1150" y1="40" x2="1150" y2="472" stroke="#1B2E44" stroke-width="1" opacity="0.7" />
+            <line x1="1108" y1="260" x2="1192" y2="260" stroke="#1B2E44" stroke-width="1" opacity="0.7" />
+            <line x1="1108" y1="356" x2="1192" y2="356" stroke="#1B2E44" stroke-width="1" opacity="0.7" />
+            <ellipse cx="1150" cy="200" rx="50" ry="80" fill="#1A3055" opacity="0.14" filter="url(#blur8)" />
+
+            <!-- Bookshelf columns — left wall -->
+            <!-- Shelf backs -->
+            <rect x="0" y="0" width="230" height="900" fill="#0a1220" opacity="0.95" />
+            <rect x="6" y="0" width="218" height="900" fill="#0c1524" opacity="0.9" />
+            <!-- Shelf planks left -->
+            <rect x="6" y="110" width="218" height="6" rx="1" fill="#1a2030" opacity="0.8" />
+            <rect x="6" y="220" width="218" height="6" rx="1" fill="#1a2030" opacity="0.8" />
+            <rect x="6" y="330" width="218" height="6" rx="1" fill="#1a2030" opacity="0.8" />
+            <rect x="6" y="440" width="218" height="6" rx="1" fill="#1a2030" opacity="0.8" />
+            <rect x="6" y="550" width="218" height="6" rx="1" fill="#1a2030" opacity="0.8" />
+            <rect x="6" y="660" width="218" height="6" rx="1" fill="#1a2030" opacity="0.8" />
+            <rect x="6" y="780" width="218" height="6" rx="1" fill="#1a2030" opacity="0.8" />
+
+            <!-- Books left shelf row 1 -->
+            <rect x="10" y="15" width="14" height="94" rx="1" fill="#2C1A0E" opacity="0.9" />
+            <rect x="26" y="22" width="10" height="87" rx="1" fill="#4A2010" opacity="0.85" />
+            <rect x="38" y="18" width="16" height="91" rx="1" fill="#1B2840" opacity="0.9" />
+            <rect x="56" y="25" width="12" height="84" rx="1" fill="#3A1818" opacity="0.85" />
+            <rect x="70" y="14" width="18" height="95" rx="1" fill="#18302A" opacity="0.9" />
+            <rect x="90" y="28" width="11" height="81" rx="1" fill="#2A2000" opacity="0.85" />
+            <rect x="103" y="20" width="15" height="89" rx="1" fill="#1C1C36" opacity="0.9" />
+            <rect x="120" y="18" width="13" height="91" rx="1" fill="#3C1A0C" opacity="0.85" />
+            <rect x="135" y="24" width="17" height="85" rx="1" fill="#0E2830" opacity="0.9" />
+            <rect x="154" y="16" width="11" height="93" rx="1" fill="#2E1428" opacity="0.85" />
+            <rect x="167" y="22" width="14" height="87" rx="1" fill="#1A2010" opacity="0.9" />
+            <rect x="183" y="19" width="12" height="90" rx="1" fill="#281010" opacity="0.85" />
+            <rect x="197" y="26" width="16" height="83" rx="1" fill="#142830" opacity="0.9" />
+
+            <!-- Gold spine accents left row 1 -->
+            <rect x="10" y="60" width="14" height="1" fill="#E8B072" opacity="0.5" />
+            <rect x="38" y="55" width="16" height="1" fill="#E8B072" opacity="0.45" />
+            <rect x="70" y="58" width="18" height="1" fill="#E8B072" opacity="0.5" />
+            <rect x="103" y="62" width="15" height="1" fill="#E8B072" opacity="0.4" />
+            <rect x="135" y="56" width="17" height="1" fill="#E8B072" opacity="0.5" />
+
+            <!-- Books left row 2 (125-218) -->
+            <rect x="10" y="128" width="16" height="88" rx="1" fill="#1E2A12" opacity="0.9" />
+            <rect x="28" y="133" width="11" height="83" rx="1" fill="#302018" opacity="0.85" />
+            <rect x="41" y="126" width="18" height="90" rx="1" fill="#1A1A30" opacity="0.9" />
+            <rect x="61" y="131" width="13" height="85" rx="1" fill="#2E1418" opacity="0.85" />
+            <rect x="76" y="128" width="15" height="88" rx="1" fill="#122830" opacity="0.9" />
+            <rect x="93" y="124" width="12" height="92" rx="1" fill="#2A1808" opacity="0.85" />
+            <rect x="107" y="130" width="17" height="86" rx="1" fill="#0E1C2E" opacity="0.9" />
+            <rect x="126" y="127" width="14" height="89" rx="1" fill="#281A10" opacity="0.85" />
+            <rect x="142" y="132" width="11" height="84" rx="1" fill="#1C2018" opacity="0.9" />
+            <rect x="155" y="126" width="16" height="90" rx="1" fill="#2A0E18" opacity="0.85" />
+            <rect x="173" y="129" width="13" height="87" rx="1" fill="#141E10" opacity="0.9" />
+            <rect x="188" y="133" width="14" height="83" rx="1" fill="#200C08" opacity="0.85" />
+
+            <!-- Rows 3-6 left (abbreviated, same pattern) -->
+            <rect x="10" y="238" width="210" height="88" rx="0" fill="#0a1018" opacity="0.4" />
+            <rect x="10" y="348" width="210" height="88" rx="0" fill="#0a1018" opacity="0.35" />
+            <rect x="10" y="458" width="210" height="88" rx="0" fill="#0a1018" opacity="0.4" />
+            <rect x="10" y="568" width="210" height="88" rx="0" fill="#0a1018" opacity="0.35" />
+            <rect x="10" y="678" width="210" height="88" rx="0" fill="#0a1018" opacity="0.4" />
+            <!-- Individual books rows 3+ left, abbreviated -->
+            <rect x="15" y="242" width="13" height="82" rx="1" fill="#1E1410" opacity="0.9" />
+            <rect x="30" y="248" width="18" height="76" rx="1" fill="#1A2C1A" opacity="0.9" />
+            <rect x="50" y="240" width="11" height="84" rx="1" fill="#281C04" opacity="0.9" />
+            <rect x="63" y="246" width="16" height="78" rx="1" fill="#10182A" opacity="0.9" />
+            <rect x="81" y="242" width="14" height="82" rx="1" fill="#2C1220" opacity="0.9" />
+            <rect x="97" y="244" width="12" height="80" rx="1" fill="#142018" opacity="0.9" />
+            <rect x="111" y="238" width="17" height="86" rx="1" fill="#1E0C0C" opacity="0.9" />
+            <rect x="130" y="248" width="13" height="76" rx="1" fill="#20281A" opacity="0.9" />
+            <rect x="145" y="243" width="15" height="81" rx="1" fill="#0C1C28" opacity="0.9" />
+            <rect x="162" y="245" width="11" height="79" rx="1" fill="#241810" opacity="0.9" />
+            <rect x="175" y="240" width="16" height="84" rx="1" fill="#181418" opacity="0.9" />
+            <rect x="193" y="244" width="14" height="80" rx="1" fill="#0E2010" opacity="0.9" />
+            <!-- Gold accents row 3 -->
+            <rect x="30" y="275" width="18" height="1" fill="#E8B072" opacity="0.4" />
+            <rect x="63" y="268" width="16" height="1" fill="#E8B072" opacity="0.45" />
+            <rect x="111" y="272" width="17" height="1" fill="#E8B072" opacity="0.4" />
+
+            <!-- Bookshelf columns — right wall (mirror) -->
+            <rect x="1210" y="0" width="230" height="900" fill="#0a1220" opacity="0.95" />
+            <rect x="1216" y="0" width="218" height="900" fill="#0c1524" opacity="0.9" />
+            <rect x="1216" y="110" width="218" height="6" rx="1" fill="#1a2030" opacity="0.8" />
+            <rect x="1216" y="220" width="218" height="6" rx="1" fill="#1a2030" opacity="0.8" />
+            <rect x="1216" y="330" width="218" height="6" rx="1" fill="#1a2030" opacity="0.8" />
+            <rect x="1216" y="440" width="218" height="6" rx="1" fill="#1a2030" opacity="0.8" />
+            <rect x="1216" y="550" width="218" height="6" rx="1" fill="#1a2030" opacity="0.8" />
+            <rect x="1216" y="660" width="218" height="6" rx="1" fill="#1a2030" opacity="0.8" />
+            <rect x="1216" y="780" width="218" height="6" rx="1" fill="#1a2030" opacity="0.8" />
+
+            <!-- Books right row 1 (mirrored) -->
+            <rect x="1220" y="15" width="14" height="94" rx="1" fill="#2C1A0E" opacity="0.9" />
+            <rect x="1236" y="22" width="10" height="87" rx="1" fill="#1B2840" opacity="0.85" />
+            <rect x="1248" y="18" width="16" height="91" rx="1" fill="#3A1818" opacity="0.9" />
+            <rect x="1266" y="25" width="12" height="84" rx="1" fill="#18302A" opacity="0.85" />
+            <rect x="1280" y="14" width="18" height="95" rx="1" fill="#2A2000" opacity="0.9" />
+            <rect x="1300" y="28" width="11" height="81" rx="1" fill="#1C1C36" opacity="0.85" />
+            <rect x="1313" y="20" width="15" height="89" rx="1" fill="#3C1A0C" opacity="0.9" />
+            <rect x="1330" y="18" width="13" height="91" rx="1" fill="#0E2830" opacity="0.85" />
+            <rect x="1345" y="24" width="17" height="85" rx="1" fill="#2E1428" opacity="0.9" />
+            <rect x="1364" y="16" width="11" height="93" rx="1" fill="#1A2010" opacity="0.85" />
+            <rect x="1377" y="22" width="14" height="87" rx="1" fill="#281010" opacity="0.9" />
+            <rect x="1393" y="19" width="12" height="90" rx="1" fill="#142830" opacity="0.85" />
+            <rect x="1407" y="26" width="16" height="83" rx="1" fill="#2C1A0E" opacity="0.9" />
+            <rect x="1220" y="60" width="14" height="1" fill="#E8B072" opacity="0.5" />
+            <rect x="1248" y="55" width="16" height="1" fill="#E8B072" opacity="0.45" />
+            <rect x="1280" y="58" width="18" height="1" fill="#E8B072" opacity="0.5" />
+            <rect x="1313" y="62" width="15" height="1" fill="#E8B072" opacity="0.4" />
+            <rect x="1345" y="56" width="17" height="1" fill="#E8B072" opacity="0.5" />
+            <!-- Right rows 2+ abbreviated -->
+            <rect x="1220" y="128" width="210" height="88" rx="0" fill="#0a1018" opacity="0.4" />
+            <rect x="1220" y="238" width="210" height="88" rx="0" fill="#0a1018" opacity="0.35" />
+            <rect x="1220" y="348" width="210" height="88" rx="0" fill="#0a1018" opacity="0.4" />
+            <rect x="1220" y="458" width="210" height="88" rx="0" fill="#0a1018" opacity="0.35" />
+            <rect x="1220" y="568" width="210" height="88" rx="0" fill="#0a1018" opacity="0.4" />
+            <rect x="1220" y="678" width="210" height="88" rx="0" fill="#0a1018" opacity="0.35" />
+            <!-- Individual books right rows abbreviated -->
+            <rect x="1225" y="132" width="16" height="82" rx="1" fill="#1A1A30" opacity="0.9" />
+            <rect x="1243" y="128" width="11" height="86" rx="1" fill="#2E1418" opacity="0.9" />
+            <rect x="1256" y="134" width="18" height="80" rx="1" fill="#122830" opacity="0.9" />
+            <rect x="1276" y="130" width="13" height="84" rx="1" fill="#2A1808" opacity="0.9" />
+            <rect x="1291" y="127" width="15" height="87" rx="1" fill="#0E1C2E" opacity="0.9" />
+            <rect x="1308" y="132" width="12" height="82" rx="1" fill="#281A10" opacity="0.9" />
+            <rect x="1322" y="128" width="17" height="86" rx="1" fill="#1C2018" opacity="0.9" />
+            <rect x="1341" y="130" width="14" height="84" rx="1" fill="#2A0E18" opacity="0.9" />
+            <rect x="1357" y="133" width="11" height="81" rx="1" fill="#141E10" opacity="0.9" />
+            <rect x="1370" y="126" width="16" height="88" rx="1" fill="#200C08" opacity="0.9" />
+            <rect x="1388" y="129" width="13" height="85" rx="1" fill="#1E2A12" opacity="0.9" />
+            <rect x="1403" y="133" width="14" height="81" rx="1" fill="#0E2010" opacity="0.9" />
+
+            <!-- Upper gallery railing -->
+            <rect x="230" y="490" width="980" height="4" rx="0" fill="#1a2535" opacity="0.8" />
+            <rect x="230" y="494" width="980" height="1" rx="0" fill="#E8B072" opacity="0.18" />
+            <!-- Railing balusters -->
+            <rect x="255" y="494" width="3" height="50" rx="1" fill="#1a2535" opacity="0.8" />
+            <rect x="295" y="494" width="3" height="50" rx="1" fill="#1a2535" opacity="0.8" />
+            <rect x="335" y="494" width="3" height="50" rx="1" fill="#1a2535" opacity="0.8" />
+            <rect x="375" y="494" width="3" height="50" rx="1" fill="#1a2535" opacity="0.8" />
+            <rect x="415" y="494" width="3" height="50" rx="1" fill="#1a2535" opacity="0.8" />
+            <rect x="455" y="494" width="3" height="50" rx="1" fill="#1a2535" opacity="0.8" />
+            <rect x="495" y="494" width="3" height="50" rx="1" fill="#1a2535" opacity="0.8" />
+            <rect x="535" y="494" width="3" height="50" rx="1" fill="#1a2535" opacity="0.8" />
+            <rect x="575" y="494" width="3" height="50" rx="1" fill="#1a2535" opacity="0.8" />
+            <rect x="615" y="494" width="3" height="50" rx="1" fill="#1a2535" opacity="0.8" />
+            <rect x="655" y="494" width="3" height="50" rx="1" fill="#1a2535" opacity="0.8" />
+            <rect x="695" y="494" width="3" height="50" rx="1" fill="#1a2535" opacity="0.8" />
+            <rect x="735" y="494" width="3" height="50" rx="1" fill="#1a2535" opacity="0.8" />
+            <rect x="775" y="494" width="3" height="50" rx="1" fill="#1a2535" opacity="0.8" />
+            <rect x="815" y="494" width="3" height="50" rx="1" fill="#1a2535" opacity="0.8" />
+            <rect x="855" y="494" width="3" height="50" rx="1" fill="#1a2535" opacity="0.8" />
+            <rect x="895" y="494" width="3" height="50" rx="1" fill="#1a2535" opacity="0.8" />
+            <rect x="935" y="494" width="3" height="50" rx="1" fill="#1a2535" opacity="0.8" />
+            <rect x="975" y="494" width="3" height="50" rx="1" fill="#1a2535" opacity="0.8" />
+            <rect x="1015" y="494" width="3" height="50" rx="1" fill="#1a2535" opacity="0.8" />
+            <rect x="1055" y="494" width="3" height="50" rx="1" fill="#1a2535" opacity="0.8" />
+            <rect x="1095" y="494" width="3" height="50" rx="1" fill="#1a2535" opacity="0.8" />
+            <rect x="1135" y="494" width="3" height="50" rx="1" fill="#1a2535" opacity="0.8" />
+            <rect x="1175" y="494" width="3" height="50" rx="1" fill="#1a2535" opacity="0.8" />
+
+            <!-- Central chandelier -->
+            <!-- Main glow -->
+            <ellipse cx="720" cy="120" rx="180" ry="80" fill="url(#chanGlow)" />
+            <!-- Chandelier chain -->
+            <rect x="718" y="0" width="4" height="60" rx="1" fill="#8a7040" opacity="0.7" />
+            <!-- Chandelier crown -->
+            <ellipse cx="720" cy="64" rx="28" ry="10" fill="#7a6030" opacity="0.8" />
+            <!-- Chandelier arms -->
+            <path d="M692,70 Q706,80 720,82 Q734,80 748,70" stroke="#8a7040" stroke-width="2.5" fill="none"
+                opacity="0.8" />
+            <path d="M672,76 Q696,88 720,90 Q744,88 768,76" stroke="#6a5028" stroke-width="2" fill="none"
+                opacity="0.7" />
+            <path d="M656,84 Q688,98 720,100 Q752,98 784,84" stroke="#5a4020" stroke-width="1.5" fill="none"
+                opacity="0.6" />
+            <!-- Candle tips -->
+            <circle cx="693" cy="71" r="3.5" fill="#E8C060" opacity="0.9" filter="url(#glow6)" />
+            <circle cx="747" cy="71" r="3.5" fill="#E8C060" opacity="0.9" filter="url(#glow6)" />
+            <circle cx="673" cy="78" r="3" fill="#E8B050" opacity="0.85" filter="url(#glow6)" />
+            <circle cx="767" cy="78" r="3" fill="#E8B050" opacity="0.85" filter="url(#glow6)" />
+            <circle cx="658" cy="86" r="2.5" fill="#E8A840" opacity="0.8" filter="url(#glow6)" />
+            <circle cx="782" cy="86" r="2.5" fill="#E8A840" opacity="0.8" filter="url(#glow6)" />
+            <circle cx="720" cy="84" r="4" fill="#F0D070" opacity="0.9" filter="url(#glow6)" />
+            <!-- Chandelier crystals (teardrop shapes) -->
+            <ellipse cx="693" cy="80" rx="2" ry="5" fill="#B8D8F0" opacity="0.45" />
+            <ellipse cx="747" cy="80" rx="2" ry="5" fill="#B8D8F0" opacity="0.45" />
+            <ellipse cx="708" cy="88" rx="1.5" ry="4.5" fill="#C0D8E8" opacity="0.4" />
+            <ellipse cx="732" cy="88" rx="1.5" ry="4.5" fill="#C0D8E8" opacity="0.4" />
+            <ellipse cx="720" cy="95" rx="2" ry="6" fill="#B0D0E8" opacity="0.5" />
+            <ellipse cx="673" cy="88" rx="1.5" ry="4" fill="#B8D8F0" opacity="0.35" />
+            <ellipse cx="767" cy="88" rx="1.5" ry="4" fill="#B8D8F0" opacity="0.35" />
+
+            <!-- Fireplace at bottom center -->
+            <rect x="610" y="770" width="220" height="130" rx="4" fill="#0e1620" opacity="0.95" />
+            <path d="M620,775 Q720,760 820,775 L830,900 L610,900 Z" fill="#0c1318" opacity="0.9" />
+            <!-- Mantel -->
+            <rect x="595" y="762" width="250" height="14" rx="1" fill="#1a2030" opacity="0.9" />
+            <rect x="600" y="776" width="240" height="8" rx="0" fill="#141c28" opacity="0.9" />
+            <!-- Fire glow -->
+            <ellipse cx="720" cy="870" rx="90" ry="40" fill="url(#fireGlow)" />
+            <!-- Fire shapes -->
+            <path
+                d="M665,875 Q680,840 695,855 Q700,830 720,820 Q735,830 740,848 Q755,835 760,855 Q775,838 785,860 Q800,870 775,875 Z"
+                fill="#D04010" opacity="0.65" filter="url(#blur3)" />
+            <path d="M680,878 Q695,848 708,858 Q715,838 720,832 Q730,840 736,856 Q748,844 758,860 Q770,868 745,876 Z"
+                fill="#E86020" opacity="0.7" filter="url(#blur3)" />
+            <path d="M695,880 Q706,858 714,864 Q720,845 726,856 Q734,846 742,862 Q752,872 720,880 Z" fill="#F0A020"
+                opacity="0.75" filter="url(#blur3)" />
+            <!-- Andirons -->
+            <rect x="695" y="870" width="6" height="20" rx="2" fill="#2a3040" opacity="0.8" />
+            <rect x="739" y="870" width="6" height="20" rx="2" fill="#2a3040" opacity="0.8" />
+            <!-- Mantel ornament line -->
+            <rect x="610" y="760" width="220" height="1" fill="#E8B072" opacity="0.3" />
+
+            <!-- Velvet armchairs (left) -->
+            <path
+                d="M380,820 Q360,800 355,760 Q350,730 370,725 L420,722 Q440,720 445,730 Q455,745 450,770 Q448,800 440,820 Z"
+                fill="#1a2850" opacity="0.9" />
+            <!-- Chair back left -->
+            <path d="M365,725 Q365,680 385,670 Q405,662 420,668 Q435,672 440,688 Q448,706 445,730 Z" fill="#1e3060"
+                opacity="0.9" />
+            <!-- Chair arm left -->
+            <path d="M380,760 Q370,755 360,758 Q350,762 352,775 Q358,780 370,778 Z" fill="#16203e" opacity="0.9" />
+            <!-- Chair cushion highlight left -->
+            <path d="M385,810 Q395,795 415,790 Q430,790 440,800 Q445,812 430,820 Q408,826 390,820 Z" fill="#243070"
+                opacity="0.6" />
+
+            <!-- Velvet armchairs (right) -->
+            <path
+                d="M1060,820 Q1080,800 1085,760 Q1090,730 1070,725 L1020,722 Q1000,720 995,730 Q985,745 990,770 Q992,800 1000,820 Z"
+                fill="#1a2850" opacity="0.9" />
+            <path d="M1075,725 Q1075,680 1055,670 Q1035,662 1020,668 Q1005,672 1000,688 Q992,706 995,730 Z"
+                fill="#1e3060" opacity="0.9" />
+            <path d="M1060,760 Q1070,755 1080,758 Q1090,762 1088,775 Q1082,780 1070,778 Z" fill="#16203e"
+                opacity="0.9" />
+            <path d="M1055,810 Q1045,795 1025,790 Q1010,790 1000,800 Q995,812 1010,820 Q1032,826 1050,820 Z"
+                fill="#243070" opacity="0.6" />
+
+            <!-- Low table between chairs -->
+            <rect x="590" y="840" width="260" height="14" rx="3" fill="#12181E" opacity="0.95" />
+            <rect x="610" y="854" width="220" height="8" rx="0" fill="#0e1418" opacity="0.9" />
+            <!-- Table items: teapot silhouette -->
+            <ellipse cx="700" cy="838" rx="18" ry="9" fill="#1a2030" opacity="0.9" />
+            <rect x="688" y="826" width="24" height="12" rx="4" fill="#1a2030" opacity="0.9" />
+            <path d="M712,832 Q726,830 726,836 Q726,840 712,838" fill="none" stroke="#1a2030" stroke-width="3"
+                opacity="0.9" />
+            <!-- Teacup -->
+            <ellipse cx="740" cy="840" rx="10" ry="5" fill="#141c28" opacity="0.9" />
+            <rect x="731" y="832" width="19" height="8" rx="2" fill="#141c28" opacity="0.9" />
+            <!-- Books stacked on table -->
+            <rect x="650" y="832" width="26" height="8" rx="1" fill="#1c1018" opacity="0.9" />
+            <rect x="652" y="826" width="22" height="6" rx="1" fill="#2a1808" opacity="0.9" />
+            <rect x="654" y="822" width="18" height="4" rx="1" fill="#1a1828" opacity="0.9" />
+
+            <!-- Floor / carpet -->
+            <rect x="230" y="860" width="980" height="40" rx="0" fill="url(#floorGrad)" opacity="0.9" />
+            <rect x="380" y="862" width="680" height="36" rx="2" fill="#0E1420" opacity="0.7" />
+            <!-- Carpet ornament lines -->
+            <rect x="400" y="864" width="640" height="1" fill="#E8B072" opacity="0.12" />
+            <rect x="420" y="893" width="600" height="1" fill="#E8B072" opacity="0.12" />
+
+            <!-- Ambient light overlay (central warm glow) -->
+            <ellipse cx="720" cy="400" rx="380" ry="340" fill="rgba(232,144,40,0.04)" />
+        </svg>
+
+        <!-- Candle flicker glow -->
+        <div class="candle-glow"></div>
+
+        <!-- ── NAVIGATION ── -->
+        <nav>
+            <span class="nav-wordmark">Tail &amp; Tea</span>
+            <ul class="nav-links">
+                <li><a href="#">Collection</a></li>
+                <li><a href="#">Catalogue</a></li>
+                <li><a href="#">Events</a></li>
+                <li><a href="#">Membership</a></li>
+            </ul>
+        </nav>
+
+        <!-- ── EDITOR'S SELECTION CARD ── -->
+        <div class="editor-card">
+            <div class="editor-label">✦ Editor's Selection</div>
+            <div class="editor-divider"></div>
+            <div class="editor-title">The Midnight Compendium, Vol. XII</div>
+            <div class="editor-meta">CURATED · MMXXVI</div>
+            <div class="editor-divider"></div>
+            <div class="editor-meta" style="font-style:italic; line-height:1.55;">
+                "A rarified trove of the world's most fugitive manuscripts."
+            </div>
+        </div>
+
+        <!-- ── HERO CONTENT ── -->
+        <main class="hero">
+            <p class="overline">✦ The Curated Private Library ✦</p>
+
+            <h1 class="brand-title">
+                Tail <span class="brand-amp">&amp;</span> Tea
+            </h1>
+
+            <p class="sub-headline">The Curated Private Library</p>
+
+            <div class="ornament">
+                <div class="ornament-line"></div>
+                <div class="ornament-diamond"></div>
+                <div class="ornament-line right"></div>
+            </div>
+
+            <p class="motto">
+                "Where the silence of midnight meets the timeless resonance of the written word."
+            </p>
+
+            <div class="btn-group">
+                <a href="#" class="btn btn-solid">Sign In</a>
+                <a href="#" class="btn btn-ghost">Create Account</a>
+            </div>
+        </main>
+
+        <!-- ── ESTABLISHED ── -->
+        <div class="established">
+            <span class="est-label">Established</span>
+            <span class="est-numeral">MCMXCVIII</span>
+        </div>
+
+        <!-- ── FOOTER ── -->
+        <footer>
+            <span class="footer-copy">© Tail &amp; Tea — All Rights Reserved</span>
+            <div class="footer-dots">
+                <div class="footer-dot"></div>
+                <div class="footer-dot"></div>
+                <div class="footer-dot"></div>
+            </div>
+            <span class="footer-copy">Membership &nbsp;·&nbsp; Privacy &nbsp;·&nbsp; Terms</span>
+        </footer>
+
+    </div>
+
+</body>
+
+</html>
