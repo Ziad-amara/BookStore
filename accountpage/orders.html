@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order History — Nocturne Editorial</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .orders-table-wrap {
+      overflow-x: auto;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    thead tr {
+      background: var(--navy-4);
+      border-bottom: 1px solid rgba(201,168,76,0.12);
+    }
+
+    th {
+      padding: 14px 18px;
+      font-size: 9px;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--gold);
+      opacity: 0.65;
+      font-weight: 500;
+      text-align: left;
+      white-space: nowrap;
+    }
+
+    td {
+      padding: 15px 18px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text);
+      vertical-align: middle;
+    }
+
+    tbody tr {
+      transition: background 0.2s;
+    }
+
+    tbody tr:hover td {
+      background: rgba(201,168,76,0.03);
+    }
+
+    tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    .order-id {
+      font-family: 'Jost', monospace;
+      font-size: 12px;
+      color: var(--gold);
+      letter-spacing: 0.5px;
+    }
+
+    .order-date { color: var(--text-dim); font-size: 12px; }
+
+    .action-btns { display: flex; gap: 8px; }
+
+    .pagination {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 18px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .page-info {
+      font-size: 12px;
+      color: var(--text-muted);
+      letter-spacing: 0.3px;
+    }
+
+    .page-btns { display: flex; gap: 8px; }
+
+    .page-btn {
+      width: 34px; height: 34px;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--navy-4);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      color: var(--text-dim);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .page-btn:hover, .page-btn.active {
+      border-color: var(--gold-border);
+      color: var(--gold);
+      background: var(--gold-dim);
+    }
+
+    .summary-strip {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+
+    .sum-box {
+      background: var(--navy-4);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 16px 22px;
+      min-width: 130px;
+      transition: border-color 0.25s;
+    }
+
+    .sum-box:hover { border-color: var(--gold-border); }
+
+    .sum-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 28px;
+      color: var(--gold);
+    }
+
+    .sum-lbl {
+      font-size: 10px;
+      letter-spacing: 1.8px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-top: 3px;
+    }
+  </style>
+</head>
+<body>
+
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-mark">Nocturne</div>
+      <div class="brand-sub">Editorial</div>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="profile.html" class="nav-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+        <span class="nav-label">Profile</span>
+      </a>
+      <a href="orders.html" class="nav-item active">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 7h8M8 12h8M8 17h5"/></svg>
+        <span class="nav-label">Order History</span>
+      </a>
+      <a href="wishlist.html" class="nav-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        <span class="nav-label">Wishlist</span>
+      </a>
+      <a href="settings.html" class="nav-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        <span class="nav-label">Settings</span>
+      </a>
+    </nav>
+    <div class="nav-signout">
+      <div class="signout-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        <span>Sign Out</span>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="page-header">
+      <div class="page-eyebrow">Account</div>
+      <h1 class="page-title">Order <em>History</em></h1>
+    </div>
+
+    <div class="summary-strip">
+      <div class="sum-box"><div class="sum-num">23</div><div class="sum-lbl">Total Orders</div></div>
+      <div class="sum-box"><div class="sum-num">€842</div><div class="sum-lbl">Total Spent</div></div>
+      <div class="sum-box"><div class="sum-num">61</div><div class="sum-lbl">Volumes Owned</div></div>
+    </div>
+
+    <div class="orders-table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Order ID</th>
+            <th>Date</th>
+            <th>Items</th>
+            <th>Status</th>
+            <th>Total</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="order-id">#NE-00412</span></td>
+            <td><span class="order-date">Apr 22, 2026</span></td>
+            <td>3 volumes</td>
+            <td><span class="badge badge-delivered">Delivered</span></td>
+            <td style="font-weight:500">€74.90</td>
+            <td><div class="action-btns"><button class="btn btn-ghost btn-sm btn-invoice">Invoice</button><button class="btn btn-ghost btn-sm btn-track">Track</button></div></td>
+          </tr>
+          <tr>
+            <td><span class="order-id">#NE-00401</span></td>
+            <td><span class="order-date">Apr 28, 2026</span></td>
+            <td>2 volumes</td>
+            <td><span class="badge badge-shipped">Shipped</span></td>
+            <td style="font-weight:500">€52.50</td>
+            <td><div class="action-btns"><button class="btn btn-ghost btn-sm btn-invoice">Invoice</button><button class="btn btn-ghost btn-sm btn-track">Track</button></div></td>
+          </tr>
+          <tr>
+            <td><span class="order-id">#NE-00415</span></td>
+            <td><span class="order-date">Apr 30, 2026</span></td>
+            <td>4 volumes</td>
+            <td><span class="badge badge-processing">Processing</span></td>
+            <td style="font-weight:500">€103.20</td>
+            <td><div class="action-btns"><button class="btn btn-ghost btn-sm btn-invoice">Invoice</button><button class="btn btn-ghost btn-sm btn-track">Track</button></div></td>
+          </tr>
+          <tr>
+            <td><span class="order-id">#NE-00389</span></td>
+            <td><span class="order-date">Apr 10, 2026</span></td>
+            <td>1 volume</td>
+            <td><span class="badge badge-delivered">Delivered</span></td>
+            <td style="font-weight:500">€29.00</td>
+            <td><div class="action-btns"><button class="btn btn-ghost btn-sm btn-invoice">Invoice</button><button class="btn btn-ghost btn-sm btn-track">Track</button></div></td>
+          </tr>
+          <tr>
+            <td><span class="order-id">#NE-00371</span></td>
+            <td><span class="order-date">Mar 15, 2026</span></td>
+            <td>2 volumes</td>
+            <td><span class="badge badge-delivered">Delivered</span></td>
+            <td style="font-weight:500">€61.00</td>
+            <td><div class="action-btns"><button class="btn btn-ghost btn-sm btn-invoice">Invoice</button><button class="btn btn-ghost btn-sm btn-track">Track</button></div></td>
+          </tr>
+          <tr>
+            <td><span class="order-id">#NE-00354</span></td>
+            <td><span class="order-date">Feb 28, 2026</span></td>
+            <td>3 volumes</td>
+            <td><span class="badge badge-delivered">Delivered</span></td>
+            <td style="font-weight:500">€88.40</td>
+            <td><div class="action-btns"><button class="btn btn-ghost btn-sm btn-invoice">Invoice</button><button class="btn btn-ghost btn-sm btn-track">Track</button></div></td>
+          </tr>
+          <tr>
+            <td><span class="order-id">#NE-00340</span></td>
+            <td><span class="order-date">Feb 12, 2026</span></td>
+            <td>1 volume</td>
+            <td><span class="badge badge-delivered">Delivered</span></td>
+            <td style="font-weight:500">€22.00</td>
+            <td><div class="action-btns"><button class="btn btn-ghost btn-sm btn-invoice">Invoice</button><button class="btn btn-ghost btn-sm btn-track">Track</button></div></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="pagination">
+      <div class="page-info">Showing 7 of 23 orders</div>
+      <div class="page-btns">
+        <div class="page-btn">&#8592;</div>
+        <div class="page-btn active">1</div>
+        <div class="page-btn">2</div>
+        <div class="page-btn">3</div>
+        <div class="page-btn">&#8594;</div>
+      </div>
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

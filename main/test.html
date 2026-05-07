@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tale & Tea</title>
+  <link rel="stylesheet" href="../shared.css" />
+  <link rel="stylesheet" href="test.css" />
+  <!-- Google Fonts: Cormorant Garamond (serif display) + DM Sans (clean body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+
+
+  <!-- ═══════════════════════════════════════
+       NAVBAR — sticky, frosted glass
+  ════════════════════════════════════════ -->
+  <header class="navbar" id="navbar">
+    <div class="nav-inner">
+
+      <!-- Logo -->
+      <a href="#" class="nav-logo">
+        <span class="logo-mark">T&amp;T</span>
+        <span class="logo-text">Tale <em>&amp;</em> Tea</span>
+      </a>
+
+      <!-- Primary nav links -->
+      <nav class="nav-links" role="navigation" aria-label="Main navigation">
+        <a href="#shop">Shop</a>
+        <a href="#curated">Curated</a>
+
+      </nav>
+
+      <!-- Search + icons -->
+      <div class="nav-actions">
+        <div class="search-wrap">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="22" y2="22"/></svg>
+          <input type="search" class="search-input" placeholder="Search titles, authors…" aria-label="Search"/>
+        </div>
+        <!-- Cart icon -->
+        <a href="../cart/index.html" class="icon-btn" aria-label="Cart" id="chart-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+          <span class="badge">3</span>
+        </a>
+        <!-- Profile icon -->
+        <a href="../accountpage/profile.html" class="icon-btn" aria-label="Profile" id="account-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </a>
+        <!-- Mobile menu toggle -->
+        <button class="menu-toggle" aria-label="Open menu" id="menuToggle">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+
+    </div>
+    <!-- Mobile menu drawer -->
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="#shop">Shop</a>
+      <a href="#curated">Curated</a>
+
+      <a href="../cart/index.html">Cart</a>
+    </div>
+  </header>
+
+
+  <!-- ═══════════════════════════════════════
+       HERO SECTION
+  ════════════════════════════════════════ -->
+  <section class="hero" aria-label="Hero">
+    <!-- Background image with dark overlay -->
+    <div class="hero-bg">
+      <img src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=1600&q=80" alt="Open book in a dark library" class="hero-img"/>
+      <div class="hero-overlay"></div>
+    </div>
+
+    <!-- Hero content -->
+    <div class="hero-content">
+      <p class="hero-eyebrow">Book of the Month</p>
+      <h1 class="hero-title">The Midnight<br/><em>Library</em></h1>
+      <p class="hero-author">by <span> the A+ team</span></p>
+
+      <p class="hero-desc">
+        Between life and death there is a library, and within that library, the shelves go on forever. Every book provides a chance to try another life you could have lived — to see how things would be different if you had made other choices.
+      </p>
+      <div class="hero-btns">
+        <a href="#shop" class="btn btn-primary">Discover Now</a>
+        <a href="#testimonial-section" class="btn btn-outline">Read Preview</a>
+      </div>
+    </div>
+
+    <!-- Decorative vertical text -->
+    <span class="hero-vertical-text" aria-hidden="true">Tale &amp; Tea — 2025</span>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════
+       FEATURE CARDS SECTION
+  ════════════════════════════════════════ -->
+  <section class="features" id="curated" aria-label="Features">
+    <div class="section-header">
+      <p class="section-label">What We Offer</p>
+      <h2 class="section-title">A Curated <em>Experience</em></h2>
+    </div>
+
+    <div class="feature-cards">
+
+      <article class="feature-card">
+        <div class="fc-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        </div>
+        <h3 class="fc-title">Expert Curation</h3>
+        <p class="fc-desc">Every title on our shelves is handpicked by our in-house bibliophiles. We read so you can choose with confidence.</p>
+        <a href="#shop" class="fc-link" aria-label="Learn about Expert Curation">
+          <span>Explore</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </article>
+
+      <article class="feature-card">
+        <div class="fc-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+        </div>
+        <h3 class="fc-title">Rare Editions</h3>
+        <p class="fc-desc">A dedicated collection of first editions, limited prints, and signed copies for the discerning collector.</p>
+        <a href="#shop" class="fc-link" aria-label="Learn about Rare Editions">
+          <span>Explore</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </article>
+
+      <article class="feature-card">
+        <div class="fc-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+        </div>
+        <h3 class="fc-title">Reading Circles</h3>
+        <p class="fc-desc">Join intimate monthly gatherings with authors and fellow readers. Literature is better shared over a warm cup of tea.</p>
+        <a href="#shop" class="fc-link" aria-label="Learn about Reading Circles">
+          <span>Explore</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </article>
+
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════
+       BOOKS GRID
+  ════════════════════════════════════════ -->
+  <section class="books-section" id="shop" aria-label="Books">
+    <div class="section-header">
+      <p class="section-label">New Arrivals</p>
+      <h2 class="section-title">Fresh From the <em>Press</em></h2>
+    </div>
+
+    <div class="books-grid">
+
+      <!-- Book 1 -->
+      <article class="book-card" data-book-id="wind-001" data-book-title="The Name of the Wind" data-book-author="Patrick Rothfuss" data-book-price="18.99" data-book-image="https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=400&q=80" data-book-category="Literary Fiction">
+        <div class="book-cover">
+          <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=400&q=80" alt="Book cover"/>
+          <div class="book-overlay">
+            <a href="#" class="btn btn-primary btn-sm" data-cart-add>Add to Cart</a>
+          </div>
+        </div>
+        <div class="book-info">
+          <span class="book-category">Literary Fiction</span>
+          <h3 class="book-title">The Name of the Wind</h3>
+          <p class="book-author">Patrick Rothfuss</p>
+          <p class="book-price">$18.99</p>
+        </div>
+      </article>
+
+      <!-- Book 2 -->
+      <article class="book-card" data-book-id="meditations-002" data-book-title="Meditations" data-book-author="Marcus Aurelius" data-book-price="14.50" data-book-image="https://images.unsplash.com/photo-1512820790803-83ca734da794?w=400&q=80" data-book-category="Philosophy">
+        <div class="book-cover">
+          <img src="https://images.unsplash.com/photo-1512820790803-83ca734da794?w=400&q=80" alt="Book cover"/>
+          <div class="book-overlay">
+            <a href="#" class="btn btn-primary btn-sm" data-cart-add>Add to Cart</a>
+          </div>
+        </div>
+        <div class="book-info">
+          <span class="book-category">Philosophy</span>
+          <h3 class="book-title">Meditations</h3>
+          <p class="book-author">Marcus Aurelius</p>
+          <p class="book-price">$14.50</p>
+        </div>
+      </article>
+
+      <!-- Book 3 -->
+      <article class="book-card" data-book-id="milk-003" data-book-title="Rupi Kaur: Milk and Honey" data-book-author="Rupi Kaur" data-book-price="12.00" data-book-image="https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=400&q=80" data-book-category="Poetry">
+        <div class="book-cover">
+          <img src="https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=400&q=80" alt="Book cover"/>
+          <div class="book-overlay">
+            <a href="#" class="btn btn-primary btn-sm" data-cart-add>Add to Cart</a>
+          </div>
+        </div>
+        <div class="book-info">
+          <span class="book-category">Poetry</span>
+          <h3 class="book-title">Rupi Kaur: Milk and Honey</h3>
+          <p class="book-author">Rupi Kaur</p>
+          <p class="book-price">$12.00</p>
+        </div>
+      </article>
+
+      <!-- Book 4 -->
+      <article class="book-card" data-book-id="thursday-004" data-book-title="The Thursday Murder Club" data-book-author="Richard Osman" data-book-price="16.75" data-book-image="https://images.unsplash.com/photo-1589829085413-56de8ae18c73?w=400&q=80" data-book-category="Mystery">
+        <div class="book-cover">
+          <img src="https://images.unsplash.com/photo-1589829085413-56de8ae18c73?w=400&q=80" alt="Book cover"/>
+          <div class="book-overlay">
+            <a href="#" class="btn btn-primary btn-sm" data-cart-add>Add to Cart</a>
+          </div>
+        </div>
+        <div class="book-info">
+          <span class="book-category">Mystery</span>
+          <h3 class="book-title">The Thursday Murder Club</h3>
+          <p class="book-author">Richard Osman</p>
+          <p class="book-price">$16.75</p>
+        </div>
+      </article>
+
+    </div>
+
+    <div class="books-cta">
+      <a href="#shop" class="btn btn-outline">Browse Full Collection</a>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════
+       TESTIMONIAL
+  ════════════════════════════════════════ -->
+  <section class="testimonial-section" aria-label="Testimonial" id="testimonial-section">
+    <div class="testimonial-card">
+      <div class="testimonial-avatar">
+        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&q=80" alt="Reader portrait"/>
+        <div class="avatar-glow"></div>
+      </div>
+      <div class="testimonial-body">
+        <svg class="quote-mark" viewBox="0 0 40 30" fill="none"><path d="M0 30V18C0 7.163 6.163 1 17 0l2 4C12.837 5.163 10 8.663 10 14v2h8v14H0zm22 0V18C22 7.163 28.163 1 39 0l2 4C34.837 5.163 32 8.663 32 14v2h8v14H22z" fill="currentColor"/></svg>
+        <blockquote class="testimonial-quote">
+          Tale &amp; Tea is not a bookstore. It is a ritual. Every visit feels like stepping into a world curated purely for the love of words — the selections are extraordinary, the atmosphere intoxicating.
+        </blockquote>
+        <div class="testimonial-meta">
+          <strong class="testimonial-name">Isabelle Laurent</strong>
+          <span class="testimonial-role">Author &amp; Literary Critic, Paris Review</span>
+        </div>
+        <div class="testimonial-stars" aria-label="5 star rating">
+          <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════
+       FEATURES ROW (4 blocks)
+  ════════════════════════════════════════ -->
+  <section class="perks" aria-label="Perks">
+    <div class="perks-grid">
+
+      <div class="perk">
+        <div class="perk-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+        </div>
+        <h4 class="perk-title">Free Delivery</h4>
+        <p class="perk-desc">On all orders above $40. Worldwide shipping available.</p>
+      </div>
+
+      <div class="perk">
+        <div class="perk-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <h4 class="perk-title">Secure Payments</h4>
+        <p class="perk-desc">SSL encrypted checkout. Your data is always protected.</p>
+      </div>
+
+      <div class="perk">
+        <div class="perk-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg>
+        </div>
+        <h4 class="perk-title">Easy Returns</h4>
+        <p class="perk-desc">30-day hassle-free return policy on all purchases.</p>
+      </div>
+
+      <div class="perk">
+        <div class="perk-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+        </div>
+        <h4 class="perk-title">Expert Advice</h4>
+        <p class="perk-desc">Our curators are available to help you find your next great read.</p>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════
+       FOOTER
+  ════════════════════════════════════════ -->
+  <footer class="footer">
+    <div class="footer-top">
+
+      <!-- Brand column -->
+      <div class="footer-brand">
+        <a href="#" class="site-logo">
+          <span class="site-logo-mark">T&amp;T</span>
+          <span class="site-logo-text">Tale <em>&amp;</em> Tea</span>
+        </a>
+        <p class="footer-tagline">A private literary sanctuary for those who believe books are the finest luxury of all.</p>
+      </div>
+
+      <!-- Link columns -->
+      <div class="footer-links">
+        <div class="footer-col">
+          <h5 class="footer-col-title">Navigate</h5>
+          <ul>
+            <li><a href="#shop">Shop</a></li>
+            <li><a href="#curated">Curated</a></li>
+            <li><a href="../cart/index.html">Cart</a></li>
+
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5 class="footer-col-title">Account</h5>
+          <ul>
+            <li><a href="../accountpage/profile.html">Profile</a></li>
+            <li><a href="../accountpage/orders.html">Orders</a></li>
+            <li><a href="../accountpage/wishlist.html">Wishlist</a></li>
+            <li><a href="../accountpage/settings.html">Settings</a></li>
+            <li><a href="../Dashboard/index.html">Dashboard</a></li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Footer bottom bar -->
+    <div class="footer-bottom">
+      <p>&copy; 2025 Tale &amp; Tea. All rights reserved.</p>
+    </div>
+  </footer>
+
+
+  <script src="../shared.js"></script>
+  <script src="script.js" defer></script>
+</body>
+</html>
