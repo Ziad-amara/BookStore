@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tale & Tea — Checkout</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════ HEADER ═══════════════════════════════════════ -->
+  <header class="header">
+    <div class="header__inner">
+      <a href="#" class="header__logo">
+        <span class="header__logo-tale">Tale</span>
+        <span class="header__logo-amp">&amp;</span>
+        <span class="header__logo-tea">Tea</span>
+      </a>
+      <div class="header__actions">
+        <button class="header__icon-btn" aria-label="Shopping cart">
+          <!-- Cart icon -->
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <path d="M16 10a4 4 0 01-8 0"/>
+          </svg>
+          <span class="header__icon-badge">2</span>
+        </button>
+        <button class="header__icon-btn" aria-label="User account">
+          <!-- User icon -->
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════════════════ MAIN ═══════════════════════════════════════ -->
+  <main class="main">
+    <div class="checkout">
+
+      <!-- ─────────── LEFT: FORM ─────────── -->
+      <div class="checkout__form-col">
+        <h1 class="checkout__title">Checkout</h1>
+
+        <!-- Shipping Information -->
+        <section class="form-section">
+          <div class="form-section__header">
+            <span class="form-section__icon">
+              <!-- Shipping icon -->
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="1" y="3" width="15" height="13" rx="1"/>
+                <path d="M16 8h4l3 5v3h-7V8z"/>
+                <circle cx="5.5" cy="18.5" r="2.5"/>
+                <circle cx="18.5" cy="18.5" r="2.5"/>
+              </svg>
+            </span>
+            <h2 class="form-section__title">Shipping Information</h2>
+          </div>
+
+          <div class="form-grid">
+            <div class="form-group form-group--full">
+              <label class="form-label" for="fullName">Full Name</label>
+              <input class="form-input" type="text" id="fullName" placeholder="Your full name" autocomplete="name" />
+            </div>
+
+            <div class="form-group form-group--full">
+              <label class="form-label" for="address">Street Address</label>
+              <input class="form-input" type="text" id="address" placeholder="Street address" autocomplete="street-address" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="city">City</label>
+              <input class="form-input" type="text" id="city" placeholder="City" autocomplete="address-level2" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="postal">Postal Code</label>
+              <input class="form-input" type="text" id="postal" placeholder="Postal code" autocomplete="postal-code" />
+            </div>
+
+            <div class="form-group form-group--full">
+              <label class="form-label" for="country">Country</label>
+              <div class="form-select-wrap">
+                <select class="form-input form-select" id="country" autocomplete="country">
+                  <option value="gb">United Kingdom</option>
+                  <option value="us">United States</option>
+                  <option value="ca">Canada</option>
+                  <option value="au">Australia</option>
+                  <option value="fr">France</option>
+                  <option value="de">Germany</option>
+                  <option value="eg">Egypt</option>
+                  <option value="jp">Japan</option>
+                  <option value="other">Other</option>
+                </select>
+                <span class="form-select-arrow">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="6 9 12 15 18 9"/>
+                  </svg>
+                </span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Delivery Method -->
+        <section class="form-section">
+          <div class="form-section__header">
+            <span class="form-section__icon">
+              <!-- Calendar / delivery icon -->
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                <line x1="16" y1="2" x2="16" y2="6"/>
+                <line x1="8" y1="2" x2="8" y2="6"/>
+                <line x1="3" y1="10" x2="21" y2="10"/>
+              </svg>
+            </span>
+            <h2 class="form-section__title">Delivery Method</h2>
+          </div>
+
+          <div class="delivery-options">
+            <!-- Standard -->
+            <label class="delivery-option delivery-option--active" data-value="standard">
+              <input class="delivery-option__radio" type="radio" name="delivery" value="standard" checked />
+              <span class="delivery-option__radio-ui"></span>
+              <div class="delivery-option__info">
+                <span class="delivery-option__name">Standard Courier</span>
+                <span class="delivery-option__desc">5–7 business days. Sustainably packaged.</span>
+              </div>
+              <span class="delivery-option__price">£8.00</span>
+            </label>
+
+            <!-- Express -->
+            <label class="delivery-option" data-value="express">
+              <input class="delivery-option__radio" type="radio" name="delivery" value="express" />
+              <span class="delivery-option__radio-ui"></span>
+              <div class="delivery-option__info">
+                <span class="delivery-option__name">Express Editorial</span>
+                <span class="delivery-option__desc">Next day delivery. Priority handling.</span>
+              </div>
+              <span class="delivery-option__price">£15.00</span>
+            </label>
+
+            <!-- Vault -->
+            <label class="delivery-option delivery-option--premium" data-value="vault">
+              <input class="delivery-option__radio" type="radio" name="delivery" value="vault" />
+              <span class="delivery-option__radio-ui"></span>
+              <div class="delivery-option__info">
+                <div class="delivery-option__name-row">
+                  <span class="delivery-option__name">Vault Insured</span>
+                  <span class="delivery-option__badge">✦ Premium</span>
+                </div>
+                <span class="delivery-option__desc">Hand-delivered in a protective archival case.</span>
+              </div>
+              <span class="delivery-option__price delivery-option__price--gold">£45.00</span>
+            </label>
+          </div>
+        </section>
+
+        <!-- Payment Details -->
+        <section class="form-section">
+          <div class="form-section__header">
+            <span class="form-section__icon">
+              <!-- Credit card icon -->
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
+                <line x1="1" y1="10" x2="23" y2="10"/>
+              </svg>
+            </span>
+            <h2 class="form-section__title">Payment Details</h2>
+          </div>
+
+          <!-- Payment tabs -->
+          <div class="payment-tabs">
+            <button class="payment-tab payment-tab--active" data-tab="card">Credit Card</button>
+            <button class="payment-tab" data-tab="paypal">PayPal</button>
+            <button class="payment-tab" data-tab="apple">Apple Pay</button>
+          </div>
+
+          <!-- Credit Card Panel -->
+          <div class="payment-panel payment-panel--active" id="panel-card">
+            <div class="form-grid">
+              <div class="form-group form-group--full">
+                <label class="form-label" for="cardNumber">Card Number</label>
+                <div class="form-input-icon-wrap">
+                  <input class="form-input form-input--icon" type="text" id="cardNumber" placeholder="0000 0000 0000 0000" maxlength="19" autocomplete="cc-number" />
+                  <span class="form-input-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                      <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
+                      <line x1="1" y1="10" x2="23" y2="10"/>
+                    </svg>
+                  </span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="expiry">Expiry Date</label>
+                <input class="form-input" type="text" id="expiry" placeholder="MM / YY" maxlength="7" autocomplete="cc-exp" />
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="cvv">CVV</label>
+                <input class="form-input" type="text" id="cvv" placeholder="123" maxlength="4" autocomplete="cc-csc" />
+              </div>
+            </div>
+          </div>
+
+          <!-- PayPal Panel -->
+          <div class="payment-panel" id="panel-paypal">
+            <div class="alt-payment">
+              <div class="alt-payment__icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M17.5 6.5C17.5 9.5 15.2 12 12 12H8L7 18H4L6 6h8c1.7 0 3.5 0.5 3.5 0.5z"/>
+                  <path d="M20.5 8.5C20.5 11.5 18.2 14 15 14h-4L10 20H7L9 8h8c1.7 0 3.5 0.5 3.5 0.5z" opacity="0.5"/>
+                </svg>
+              </div>
+              <p class="alt-payment__text">You'll be redirected to PayPal to complete your purchase securely.</p>
+              <button class="alt-payment__btn">Continue with PayPal</button>
+            </div>
+          </div>
+
+          <!-- Apple Pay Panel -->
+          <div class="payment-panel" id="panel-apple">
+            <div class="alt-payment">
+              <div class="alt-payment__icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+                </svg>
+              </div>
+              <p class="alt-payment__text">Use Touch ID or Face ID to pay instantly with Apple Pay.</p>
+              <button class="alt-payment__btn alt-payment__btn--apple">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-right:6px">
+                  <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+                </svg>
+                Pay
+              </button>
+            </div>
+          </div>
+
+        </section>
+      </div><!-- /checkout__form-col -->
+
+      <!-- ─────────── RIGHT: ORDER SUMMARY ─────────── -->
+      <aside class="checkout__summary-col">
+        <div class="order-summary">
+          <h2 class="order-summary__title">Order Summary</h2>
+
+          <div class="order-summary__items">
+
+            <div class="order-item">
+              <div class="order-item__img-wrap">
+                <div class="order-item__img order-item__img--warm"></div>
+              </div>
+              <div class="order-item__details">
+                <span class="order-item__name">The Alchemist's Midnight</span>
+                <span class="order-item__type">LIMITED EDITION</span>
+              </div>
+              <span class="order-item__price">£124.00</span>
+            </div>
+
+            <div class="order-item">
+              <div class="order-item__img-wrap">
+                <div class="order-item__img order-item__img--cool"></div>
+              </div>
+              <div class="order-item__details">
+                <span class="order-item__name">Architecture of Silence</span>
+                <span class="order-item__type">HARDCOVER</span>
+              </div>
+              <span class="order-item__price">£86.00</span>
+            </div>
+
+          </div>
+
+          <div class="order-summary__quote">
+            <span class="order-summary__quote-mark">"</span>
+            Each edition is inspected by hand and numbered in our London atelier before dispatch.
+          </div>
+
+          <div class="order-summary__totals">
+            <div class="order-summary__row">
+              <span class="order-summary__label">Subtotal</span>
+              <span class="order-summary__value">£210.00</span>
+            </div>
+            <div class="order-summary__row">
+              <span class="order-summary__label">Shipping</span>
+              <span class="order-summary__value" id="shippingCost">£45.00</span>
+            </div>
+            <div class="order-summary__row">
+              <span class="order-summary__label">Tax</span>
+              <span class="order-summary__value">£42.00</span>
+            </div>
+            <div class="order-summary__divider"></div>
+            <div class="order-summary__row order-summary__row--total">
+              <span class="order-summary__label">Total</span>
+              <span class="order-summary__value order-summary__value--total" id="totalCost">£297.00</span>
+            </div>
+          </div>
+
+          <button class="btn-place-order" id="placeOrderBtn">
+            <span class="btn-place-order__text">Place Order</span>
+            <span class="btn-place-order__arrow">→</span>
+          </button>
+
+          <div class="order-summary__secure">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+              <path d="M7 11V7a5 5 0 0110 0v4"/>
+            </svg>
+            Secure Encrypted Transaction
+          </div>
+        </div>
+      </aside>
+
+    </div><!-- /checkout -->
+  </main>
+
+  <!-- ═══════════════════════════════════════ FOOTER ═══════════════════════════════════════ -->
+  <footer class="footer">
+    <div class="footer__inner">
+      <div class="footer__brand">
+        <span class="footer__brand-name">Tale &amp; Tea</span>
+      </div>
+      <nav class="footer__nav">
+        <a href="#" class="footer__link">Privacy Policy</a>
+        <a href="#" class="footer__link">Terms of Service</a>
+        <a href="#" class="footer__link">Contact Us</a>
+      </nav>
+      <p class="footer__copy">© the A+ team. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wishlist — Nocturne Editorial</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .wishlist-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .wishlist-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 20px;
+    }
+
+    .book-card {
+      background: var(--navy-3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    }
+
+    .book-card:hover {
+      border-color: var(--gold-border);
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.5), 0 0 24px rgba(201,168,76,0.07);
+    }
+
+    .book-cover {
+      height: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 52px;
+      position: relative;
+    }
+
+    .book-cover::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 50%;
+      background: linear-gradient(to bottom, transparent, var(--navy-3));
+      pointer-events: none;
+    }
+
+    .book-info {
+      padding: 16px 18px 18px;
+    }
+
+    .book-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 16px;
+      font-weight: 400;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .book-author {
+      font-size: 12px;
+      color: var(--text-dim);
+      margin-top: 4px;
+    }
+
+    .book-price {
+      font-size: 15px;
+      color: var(--gold);
+      margin-top: 8px;
+      font-weight: 400;
+    }
+
+    .book-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .book-actions button {
+      flex: 1;
+      padding: 8px 0;
+      font-size: 10px;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: all 0.2s;
+      font-family: 'Jost', sans-serif;
+      font-weight: 500;
+    }
+
+    .add-cart {
+      background: rgba(201,168,76,0.1);
+      border-color: var(--gold-border) !important;
+      color: var(--gold);
+    }
+
+    .add-cart:hover {
+      background: rgba(201,168,76,0.2);
+    }
+
+    .remove-book {
+      background: rgba(180,50,40,0.1);
+      border-color: rgba(180,50,40,0.2) !important;
+      color: #e07060;
+    }
+
+    .remove-book:hover {
+      background: rgba(180,50,40,0.2);
+    }
+
+    .new-list-tile {
+      background: transparent;
+      border: 1px dashed rgba(201,168,76,0.2);
+      border-radius: var(--radius);
+      min-height: 300px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .new-list-tile:hover {
+      background: var(--gold-dim);
+      border-color: rgba(201,168,76,0.4);
+    }
+
+    .new-list-tile:hover .plus-ring { border-color: rgba(201,168,76,0.6); }
+
+    .plus-ring {
+      width: 50px; height: 50px;
+      border-radius: 50%;
+      border: 1px solid rgba(201,168,76,0.25);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 24px;
+      color: var(--gold);
+      transition: border-color 0.3s;
+    }
+
+    .new-list-label {
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(201,168,76,0.5);
+    }
+  </style>
+</head>
+<body>
+
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-mark">Nocturne</div>
+      <div class="brand-sub">Editorial</div>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="profile.html" class="nav-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+        <span class="nav-label">Profile</span>
+      </a>
+      <a href="orders.html" class="nav-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 7h8M8 12h8M8 17h5"/></svg>
+        <span class="nav-label">Order History</span>
+      </a>
+      <a href="wishlist.html" class="nav-item active">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        <span class="nav-label">Wishlist</span>
+      </a>
+      <a href="settings.html" class="nav-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        <span class="nav-label">Settings</span>
+      </a>
+    </nav>
+    <div class="nav-signout">
+      <div class="signout-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        <span>Sign Out</span>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="wishlist-header">
+      <div>
+        <div class="page-eyebrow">Account</div>
+        <h1 class="page-title">My <em>Wishlist</em></h1>
+      </div>
+      <button class="btn btn-gold">Add All to Cart</button>
+    </div>
+
+    <div class="wishlist-grid" id="wishlist-grid">
+
+      <div class="book-card">
+        <div class="book-cover" style="background:linear-gradient(145deg,#1a0e2e,#0c0818)">🌙</div>
+        <div class="book-info">
+          <div class="book-title">Piranesi</div>
+          <div class="book-author">Susanna Clarke</div>
+          <div class="book-price">€22.90</div>
+          <div class="book-actions">
+            <button class="add-cart">+ Cart</button>
+            <button class="remove-book">Remove</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="book-card">
+        <div class="book-cover" style="background:linear-gradient(145deg,#0e1a12,#081008)">🌿</div>
+        <div class="book-info">
+          <div class="book-title">The Name of the Rose</div>
+          <div class="book-author">Umberto Eco</div>
+          <div class="book-price">€18.50</div>
+          <div class="book-actions">
+            <button class="add-cart">+ Cart</button>
+            <button class="remove-book">Remove</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="book-card">
+        <div class="book-cover" style="background:linear-gradient(145deg,#1a1205,#100c00)">✨</div>
+        <div class="book-info">
+          <div class="book-title">Exhalation</div>
+          <div class="book-author">Ted Chiang</div>
+          <div class="book-price">€26.00</div>
+          <div class="book-actions">
+            <button class="add-cart">+ Cart</button>
+            <button class="remove-book">Remove</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="book-card">
+        <div class="book-cover" style="background:linear-gradient(145deg,#1a0d0d,#100808)">🔥</div>
+        <div class="book-info">
+          <div class="book-title">Shuggie Bain</div>
+          <div class="book-author">Douglas Stuart</div>
+          <div class="book-price">€19.90</div>
+          <div class="book-actions">
+            <button class="add-cart">+ Cart</button>
+            <button class="remove-book">Remove</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="book-card">
+        <div class="book-cover" style="background:linear-gradient(145deg,#0d1a1a,#081010)">🌊</div>
+        <div class="book-info">
+          <div class="book-title">The Sea, The Sea</div>
+          <div class="book-author">Iris Murdoch</div>
+          <div class="book-price">€21.40</div>
+          <div class="book-actions">
+            <button class="add-cart">+ Cart</button>
+            <button class="remove-book">Remove</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="book-card">
+        <div class="book-cover" style="background:linear-gradient(145deg,#14101a,#0c0810)">🗺️</div>
+        <div class="book-info">
+          <div class="book-title">The Atlas Six</div>
+          <div class="book-author">Olivie Blake</div>
+          <div class="book-price">€24.00</div>
+          <div class="book-actions">
+            <button class="add-cart">+ Cart</button>
+            <button class="remove-book">Remove</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="new-list-tile" id="new-list-tile">
+        <div class="plus-ring">+</div>
+        <div class="new-list-label">Create New List</div>
+      </div>
+
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

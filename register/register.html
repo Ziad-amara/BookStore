@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Create Account | Tale & Tea</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400;1,6..72,600&family=Inter:wght@300;400;500;600&display=swap"
+    rel="stylesheet" />
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #0b1326;
+      --surface: #131b2e;
+      --surface-hi: #1a2540;
+      --border: #2a3d5e;
+      --gold: #f59e0b;
+      --gold-light: #ffc174;
+      --gold-dim: #dcc66e;
+      --text: #dae2fd;
+      --muted: #7a94b4;
+      --faint: #3d5070;
+      --error: #e06060;
+      --font-serif: 'Newsreader', Georgia, serif;
+      --font-sans: 'Inter', system-ui, sans-serif;
+    }
+
+    html,
+    body {
+      min-height: 100vh;
+      font-family: var(--font-sans);
+      background-color: var(--bg);
+      background-image:
+        radial-gradient(ellipse 60% 70% at 10% 40%, #1b3158 0%, transparent 60%),
+        radial-gradient(ellipse 50% 60% at 90% 70%, #0e1f3d 0%, transparent 55%);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0;
+      inset-inline: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
+      padding: 0 48px;
+      background: rgba(11, 19, 38, .85);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(255, 255, 255, .06);
+    }
+
+    .nav-brand {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--gold);
+      text-decoration: none;
+      letter-spacing: .02em;
+    }
+
+    .nav-brand span {
+      color: var(--text);
+      font-style: normal;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: .75rem;
+      font-weight: 600;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color .2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+    }
+
+    .nav-links a.active {
+      color: var(--gold);
+      border-bottom: 1.5px solid var(--gold);
+      padding-bottom: 2px;
+    }
+
+    /* ── LAYOUT ── */
+    main {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 60px;
+      padding: 100px 80px 60px;
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    /* ── LEFT HERO ── */
+    .hero {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+      padding-right: 20px;
+      animation: fadeIn .6s ease both;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateX(-20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .hero-headline {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: clamp(2.6rem, 4vw, 3.8rem);
+      font-weight: 600;
+      line-height: 1.1;
+      color: var(--gold-light);
+      letter-spacing: -.02em;
+    }
+
+    .hero-body {
+      font-size: 1.05rem;
+      font-weight: 300;
+      line-height: 1.65;
+      color: var(--text);
+      max-width: 420px;
+    }
+
+    .curator-note {
+      background: rgba(19, 27, 46, .72);
+      backdrop-filter: blur(12px);
+      border-left: 3px solid var(--gold);
+      border-radius: 6px;
+      padding: 24px 28px;
+      max-width: 460px;
+    }
+
+    .curator-note-title {
+      font-family: var(--font-serif);
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+
+    .curator-note-text {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: .9rem;
+      line-height: 1.6;
+      color: var(--muted);
+    }
+
+    /* ── FORM CARD ── */
+    .form-card {
+      background: rgba(19, 27, 46, .92);
+      border: 1px solid rgba(60, 90, 130, .35);
+      border-radius: 16px;
+      padding: 44px 44px 40px;
+      box-shadow: 0 0 80px rgba(0, 0, 0, .6), 0 24px 64px rgba(0, 0, 0, .5);
+      backdrop-filter: blur(10px);
+      animation: slideUp .5s ease both;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(24px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .card-header {
+      margin-bottom: 28px;
+    }
+
+    .card-title {
+      font-family: var(--font-serif);
+      font-size: 2rem;
+      font-weight: 600;
+      color: var(--text);
+      letter-spacing: -.01em;
+      margin-bottom: 6px;
+    }
+
+    .card-subtitle {
+      font-size: .7rem;
+      font-weight: 600;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .divider {
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--gold-dim), transparent);
+      margin-bottom: 24px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 16px;
+    }
+
+    .field-label {
+      font-size: .65rem;
+      font-weight: 600;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .field-input-wrap {
+      position: relative;
+    }
+
+    .field-icon {
+      position: absolute;
+      left: 13px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 15px;
+      height: 15px;
+      color: var(--faint);
+      pointer-events: none;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+      width: 100%;
+      background: #1a2740;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 13px 14px 13px 40px;
+      font-family: var(--font-sans);
+      font-size: .9rem;
+      color: var(--text);
+      outline: none;
+      transition: border-color .2s, box-shadow .2s;
+    }
+
+    input::placeholder {
+      color: var(--faint);
+    }
+
+    input:focus {
+      border-color: rgba(245, 158, 11, .55);
+      box-shadow: 0 0 0 3px rgba(245, 158, 11, .09);
+    }
+
+    input.invalid {
+      border-color: var(--error) !important;
+      box-shadow: 0 0 0 3px rgba(224, 96, 96, .1) !important;
+    }
+
+    .field-error {
+      font-size: .7rem;
+      color: var(--error);
+      min-height: 14px;
+    }
+
+    .field-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .field-row .field {
+      margin-bottom: 0;
+    }
+
+    /* Password letter-spacing */
+    input[type="password"] {
+      letter-spacing: .15em;
+    }
+
+    input[type="password"]::placeholder {
+      letter-spacing: normal;
+    }
+
+    /* TOS */
+    .tos-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 6px;
+    }
+
+    .tos-checkbox {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 16px;
+      height: 16px;
+      min-width: 16px;
+      border: 1.5px solid var(--border);
+      border-radius: 3px;
+      background: #1a2740;
+      cursor: pointer;
+      position: relative;
+      transition: border-color .2s, background .2s;
+    }
+
+    .tos-checkbox:checked {
+      background: var(--gold);
+      border-color: var(--gold);
+    }
+
+    .tos-checkbox:checked::after {
+      content: '';
+      position: absolute;
+      left: 3px;
+      top: 1px;
+      width: 7px;
+      height: 9px;
+      border: 2px solid #1a0e00;
+      border-top: none;
+      border-left: none;
+      transform: rotate(42deg);
+    }
+
+    .tos-label {
+      font-size: .63rem;
+      font-weight: 600;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .tos-error {
+      font-size: .7rem;
+      color: var(--error);
+      min-height: 14px;
+      margin-bottom: 4px;
+    }
+
+    .btn-primary {
+      width: 100%;
+      padding: 15px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      background: linear-gradient(135deg, #ffc174 0%, #f59e0b 45%, #c47010 80%, #b86808 100%);
+      color: #1c0e00;
+      font-family: var(--font-sans);
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .17em;
+      text-transform: uppercase;
+      box-shadow: 0 4px 24px rgba(245, 158, 11, .28);
+      transition: transform .15s, box-shadow .2s, opacity .2s;
+      margin-top: 4px;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(245, 158, 11, .42);
+    }
+
+    .btn-primary:active {
+      transform: translateY(0);
+    }
+
+    .btn-primary:disabled {
+      opacity: .7;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .card-footer {
+      margin-top: 24px;
+      text-align: center;
+      font-size: .85rem;
+      color: var(--muted);
+    }
+
+    .card-footer a {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-weight: 700;
+      font-size: .95rem;
+      color: var(--gold);
+      text-decoration: none;
+      transition: opacity .2s;
+    }
+
+    .card-footer a:hover {
+      opacity: .8;
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 32px;
+      right: 32px;
+      z-index: 999;
+      padding: 14px 22px;
+      border-radius: 8px;
+      font-size: .85rem;
+      font-weight: 500;
+      color: var(--text);
+      background: rgba(19, 27, 46, .96);
+      border: 1px solid var(--border);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, .5);
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity .3s, transform .3s;
+      pointer-events: none;
+    }
+
+    .toast.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .toast.success {
+      border-left: 3px solid var(--gold);
+    }
+
+    .toast.error {
+      border-left: 3px solid var(--error);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 960px) {
+      nav {
+        padding: 0 24px;
+      }
+
+      main {
+        grid-template-columns: 1fr;
+        padding: 100px 24px 60px;
+        gap: 32px;
+      }
+
+      .hero {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav>
+    <a class="nav-brand" href="#">Tale <span>&</span> Tea</a>
+    <ul class="nav-links">
+      <li><a href="#">Library</a></li>
+      <li><a href="#">Discover</a></li>
+      <li><a href="../login/login.html">Sign In</a></li>
+      <li><a href="register.html" class="active">Register</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <!-- LEFT HERO -->
+    <section class="hero">
+      <h1 class="hero-headline">Join our circle of<br>discerning readers.</h1>
+      <p class="hero-body">Become a member of Tale & Tea to access curated literary collections, staff critiques, and an
+        exclusive community of bibliophiles.</p>
+      <div class="curator-note">
+        <p class="curator-note-title">The Curator's Note</p>
+        <p class="curator-note-text">Membership isn't just about reading more — it's about reading better. We find the
+          gems so you don't have to sift through the dust.</p>
+      </div>
+    </section>
+
+    <!-- FORM CARD -->
+    <div class="form-card">
+      <div class="card-header">
+        <h2 class="card-title">Create Account</h2>
+        <p class="card-subtitle">The Midnight Society Awaits</p>
+      </div>
+      <div class="divider"></div>
+
+      <div id="registerForm">
+        <!-- Username -->
+        <div class="field">
+          <label class="field-label" for="username">Username</label>
+          <div class="field-input-wrap">
+            <svg class="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+              <circle cx="12" cy="7" r="4" />
+            </svg>
+            <input type="text" id="username" placeholder="Your moniker" autocomplete="username" />
+          </div>
+          <div class="field-error" id="username-error"></div>
+        </div>
+
+        <!-- Email -->
+        <div class="field">
+          <label class="field-label" for="email">Email Address</label>
+          <div class="field-input-wrap">
+            <svg class="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="4" width="20" height="16" rx="2" />
+              <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+            </svg>
+            <input type="email" id="email" placeholder="email@tale-and-tea.com" autocomplete="email" />
+          </div>
+          <div class="field-error" id="email-error"></div>
+        </div>
+
+        <!-- Password row -->
+        <div class="field-row">
+          <div class="field">
+            <label class="field-label" for="password">Password</label>
+            <div class="field-input-wrap">
+              <svg class="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2" />
+                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+              </svg>
+              <input type="password" id="password" placeholder="••••••••" autocomplete="new-password" />
+            </div>
+            <div class="field-error" id="password-error"></div>
+          </div>
+          <div class="field">
+            <label class="field-label" for="confirm">Confirm</label>
+            <div class="field-input-wrap">
+              <svg class="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              </svg>
+              <input type="password" id="confirm" placeholder="••••••••" autocomplete="new-password" />
+            </div>
+            <div class="field-error" id="confirm-error"></div>
+          </div>
+        </div>
+
+        <!-- ToS -->
+        <div class="tos-row">
+          <input class="tos-checkbox" type="checkbox" id="tos" />
+          <label class="tos-label" for="tos">I agree to the Terms of Service</label>
+        </div>
+        <div class="tos-error" id="tos-error"></div>
+
+        <button class="btn-primary" id="submitBtn" type="button">Begin Your Journey</button>
+      </div>
+
+      <div class="card-footer">
+        <p>Already registered? <a href="login.html">Sign in here.</a></p>
+      </div>
+    </div>
+  </main>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    (function () {
+      'use strict';
+
+      const API_BASE = 'http://localhost/bookstore/api';
+
+      const fields = {
+        username: document.getElementById('username'),
+        email: document.getElementById('email'),
+        password: document.getElementById('password'),
+        confirm: document.getElementById('confirm'),
+        tos: document.getElementById('tos'),
+      };
+      const errors = {
+        username: document.getElementById('username-error'),
+        email: document.getElementById('email-error'),
+        password: document.getElementById('password-error'),
+        confirm: document.getElementById('confirm-error'),
+        tos: document.getElementById('tos-error'),
+      };
+      const submitBtn = document.getElementById('submitBtn');
+      const toastEl = document.getElementById('toast');
+      let toastTimer;
+
+      const validators = {
+        username: v => !v.trim() ? 'Username is required.' : v.trim().length < 3 ? 'At least 3 characters.' : '',
+        email: v => !v.trim() ? 'Email is required.' : !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) ? 'Enter a valid email.' : '',
+        password: v => !v ? 'Password is required.' : v.length < 8 ? 'At least 8 characters.' : '',
+        confirm: v => !v ? 'Please confirm your password.' : v !== fields.password.value ? 'Passwords do not match.' : '',
+        tos: v => !v ? 'You must agree to the Terms of Service.' : '',
+      };
+
+      function setErr(name, msg) {
+        errors[name].textContent = msg;
+        if (name !== 'tos') fields[name].classList.toggle('invalid', !!msg);
+      }
+      function validateField(name) {
+        const val = name === 'tos' ? fields[name].checked : fields[name].value;
+        const msg = validators[name](val);
+        setErr(name, msg);
+        return !msg;
+      }
+      function validateAll() {
+        return Object.keys(validators).map(validateField).every(Boolean);
+      }
+
+      // Live validation on blur
+      Object.keys(fields).forEach(name => {
+        const el = fields[name];
+        el.addEventListener(name === 'tos' ? 'change' : 'blur', () => validateField(name));
+        if (name !== 'tos') {
+          el.addEventListener('input', () => {
+            if (el.classList.contains('invalid')) validateField(name);
+            if (name === 'password' && fields.confirm.value) validateField('confirm');
+          });
+        }
+      });
+
+      function showToast(msg, type) {
+        clearTimeout(toastTimer);
+        toastEl.textContent = msg;
+        toastEl.className = `toast ${type} visible`;
+        toastTimer = setTimeout(() => toastEl.classList.remove('visible'), 4000);
+      }
+
+      function setLoading(on) {
+        submitBtn.disabled = on;
+        submitBtn.textContent = on ? 'Creating account…' : 'Begin Your Journey';
+      }
+
+      submitBtn.addEventListener('click', async () => {
+        if (!validateAll()) {
+          const firstErr = Object.keys(validators).find(n => errors[n].textContent.trim());
+          if (firstErr && fields[firstErr].focus) fields[firstErr].focus();
+          showToast('Please fix the errors below.', 'error');
+          return;
+        }
+
+        setLoading(true);
+        try {
+          const res = await fetch(`${API_BASE}/auth/register`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              name: fields.username.value.trim(),
+              email: fields.email.value.trim(),
+              password: fields.password.value
+            })
+          });
+          const data = await res.json();
+
+          if (res.ok && data.status === 'success') {
+            // Save token + user info right away
+            localStorage.setItem('token', data.data.token);
+            localStorage.setItem('user', JSON.stringify(data.data.user));
+
+            showToast('Account created! Redirecting…', 'success');
+
+            // Clear form
+            Object.values(fields).forEach(f => {
+              if (f.type === 'checkbox') f.checked = false;
+              else { f.value = ''; f.classList.remove('invalid'); }
+            });
+            Object.values(errors).forEach(e => e.textContent = '');
+
+            setTimeout(() => window.location.href = '../main/test.html', 1500);
+
+          } else if (res.status === 409) {
+            // Email already taken
+            setErr('email', 'This email is already registered.');
+            fields.email.focus();
+            showToast(data.message || 'Email already in use.', 'error');
+          } else {
+            showToast(data.message || 'Registration failed. Please try again.', 'error');
+          }
+
+        } catch (err) {
+          showToast('Cannot reach server. Is your backend running?', 'error');
+        } finally {
+          setLoading(false);
+        }
+      });
+
+      // Allow Enter key to submit
+      document.getElementById('registerForm').addEventListener('keydown', e => {
+        if (e.key === 'Enter' && e.target.tagName !== 'BUTTON') {
+          e.preventDefault(); submitBtn.click();
+        }
+      });
+    })();
+  </script>
+</body>
+
+</html>
