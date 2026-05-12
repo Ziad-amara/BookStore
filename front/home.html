@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Page & Prose — Online Bookstore</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'DM Sans', sans-serif; background: #F5F2EE; color: #1a1a1a; }
+
+.topbar {
+  background: white;
+  border-bottom: 1px solid #e5e0d8;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  height: 60px;
+  position: sticky; top: 0; z-index: 50;
+}
+.logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px; font-weight: 600;
+  color: #1a1a1a; white-space: nowrap;
+}
+.logo span { color: #B85C30; }
+.search-bar {
+  flex: 1;
+  display: flex; align-items: center;
+  background: #F5F2EE;
+  border: 1px solid #e5e0d8;
+  border-radius: 8px;
+  padding: 0 12px; gap: 8px; height: 38px;
+}
+.search-bar input {
+  border: none; background: transparent;
+  font-size: 14px; color: #1a1a1a; outline: none; width: 100%;
+  font-family: 'DM Sans', sans-serif;
+}
+.search-bar input::placeholder { color: #aaa; }
+.cart-btn {
+  display: flex; align-items: center; gap: 8px;
+  background: #B85C30; color: white;
+  border: none; border-radius: 8px;
+  padding: 8px 16px; font-size: 14px; font-weight: 500;
+  cursor: pointer; font-family: 'DM Sans', sans-serif;
+  white-space: nowrap;
+}
+.cart-count {
+  background: white; color: #B85C30;
+  border-radius: 50%; width: 20px; height: 20px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 600;
+}
+
+.hero {
+  background: linear-gradient(135deg, #2C2220 0%, #4A2C20 100%);
+  padding: 48px 24px; display: flex; align-items: center; gap: 40px;
+}
+.hero-text { flex: 1; }
+.hero-badge {
+  background: rgba(184,92,48,0.25); border: 1px solid rgba(184,92,48,0.4);
+  color: #F0B080; border-radius: 20px; padding: 5px 14px;
+  font-size: 13px; display: inline-block; margin-bottom: 14px;
+}
+.hero-text h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 34px; font-weight: 600;
+  color: #F5E6D3; line-height: 1.25; margin-bottom: 12px;
+}
+.hero-text p { color: #C4A882; font-size: 15px; line-height: 1.6; margin-bottom: 22px; }
+.hero-cta {
+  display: inline-block; background: #B85C30; color: white;
+  border: none; border-radius: 8px; padding: 12px 24px;
+  font-size: 14px; font-weight: 500; cursor: pointer;
+  font-family: 'DM Sans', sans-serif; text-decoration: none;
+}
+.hero-books { display: flex; gap: 10px; align-items: flex-end; }
+.mini-book {
+  border-radius: 3px 6px 6px 3px;
+  display: flex; align-items: flex-end; justify-content: center;
+  padding-bottom: 8px; cursor: pointer;
+  transition: transform 0.2s;
+}
+.mini-book:hover { transform: translateY(-8px); }
+.mini-book span {
+  font-size: 10px; font-weight: 500; color: rgba(255,255,255,0.85);
+  writing-mode: vertical-rl; text-orientation: mixed;
+  transform: rotate(180deg); letter-spacing: 0.5px;
+}
+
+.main { display: flex; min-height: calc(100vh - 180px); }
+
+.sidebar {
+  width: 210px; min-width: 210px;
+  background: white;
+  border-right: 1px solid #e5e0d8;
+  padding: 20px 0;
+}
+.sidebar-section { margin-bottom: 28px; }
+.sidebar-label {
+  font-size: 11px; font-weight: 500; letter-spacing: 1px;
+  color: #999; text-transform: uppercase;
+  padding: 0 18px; margin-bottom: 8px;
+}
+.genre-item {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 8px 18px; font-size: 13px; cursor: pointer;
+  color: #555; border-left: 2px solid transparent;
+  transition: all 0.15s;
+}
+.genre-item:hover { background: #FAF7F5; color: #1a1a1a; }
+.genre-item.active { color: #B85C30; border-left-color: #B85C30; background: #FDF0EA; font-weight: 500; }
+.genre-count {
+  font-size: 11px; color: #aaa;
+  background: #F5F2EE; padding: 2px 8px; border-radius: 10px;
+}
+
+.price-filter { padding: 0 18px; }
+.price-filter input[type=range] { width: 100%; accent-color: #B85C30; }
+.price-labels { display: flex; justify-content: space-between; font-size: 12px; color: #888; margin-top: 6px; }
+
+.content { flex: 1; padding: 24px; }
+.content-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 20px;
+}
+.results-label { font-size: 14px; color: #888; }
+.results-label strong { color: #1a1a1a; }
+select {
+  font-size: 13px; border: 1px solid #e5e0d8;
+  border-radius: 8px; padding: 7px 12px;
+  background: white; color: #1a1a1a;
+  font-family: 'DM Sans', sans-serif; cursor: pointer; outline: none;
+}
+
+.books-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(165px, 1fr));
+  gap: 18px;
+}
+
+.book-card {
+  background: white; border: 1px solid #e5e0d8;
+  border-radius: 12px; overflow: hidden; cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.book-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
+
+.book-cover {
+  width: 100%; aspect-ratio: 3/4;
+  display: flex; align-items: flex-end; padding: 12px;
+  position: relative; overflow: hidden;
+}
+.book-cover::after {
+  content: '';
+  position: absolute; bottom: 0; left: 0; right: 0; height: 60%;
+  background: linear-gradient(transparent, rgba(0,0,0,0.5));
+}
+.book-cover-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 13px; font-weight: 600;
+  color: rgba(255,255,255,0.95); line-height: 1.3;
+  z-index: 1; position: relative;
+}
+.badge {
+  position: absolute; top: 10px; left: 10px;
+  font-size: 10px; font-weight: 600; padding: 3px 8px;
+  border-radius: 4px; z-index: 2; letter-spacing: 0.3px;
+}
+.badge-new { background: #B85C30; color: white; }
+.badge-sale { background: #1D9E75; color: white; }
+
+.book-info { padding: 10px 12px 14px; }
+.book-author { font-size: 11px; color: #aaa; margin-bottom: 3px; }
+.book-genre {
+  font-size: 10px; color: #B85C30; font-weight: 500;
+  text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;
+}
+.rating { display: flex; align-items: center; gap: 4px; margin-bottom: 8px; }
+.stars { color: #EF9F27; font-size: 11px; }
+.rating-count { font-size: 11px; color: #aaa; }
+.book-footer { display: flex; align-items: center; justify-content: space-between; }
+.book-price { font-size: 16px; font-weight: 500; }
+.book-price-old { font-size: 11px; color: #bbb; text-decoration: line-through; margin-right: 3px; }
+.add-btn {
+  width: 30px; height: 30px; border-radius: 50%;
+  background: #B85C30; color: white; border: none;
+  font-size: 20px; line-height: 1; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: transform 0.15s, background 0.15s;
+}
+.add-btn:hover { background: #9A4A24; transform: scale(1.1); }
+.add-btn.added { background: #1D9E75; font-size: 14px; }
+
+.toast {
+  position: fixed; bottom: 24px; right: 24px;
+  background: #1D9E75; color: white;
+  padding: 12px 20px; border-radius: 8px;
+  font-size: 13px; font-weight: 500;
+  opacity: 0; transform: translateY(10px);
+  transition: all 0.3s; pointer-events: none; z-index: 999;
+}
+.toast.show { opacity: 1; transform: translateY(0); }
+
+@media (max-width: 640px) {
+  .hero-books { display: none; }
+  .sidebar { display: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="logo">Page<span>&</span>Prose</div>
+  <div class="search-bar">
+    <svg width="14" height="14" fill="none" stroke="#aaa" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    <input type="text" placeholder="Search by title, author, or ISBN..." />
+  </div>
+  <button class="cart-btn">
+    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+    Cart <span class="cart-count" id="cartCount">0</span>
+  </button>
+</div>
+
+<div class="hero">
+  <div class="hero-text">
+    <div class="hero-badge">✨ New arrivals this week</div>
+    <h1>Books for every<br>curious mind</h1>
+    <p>Over 50,000 titles across all genres — from timeless classics to the latest bestsellers.</p>
+    <button class="hero-cta">Browse bestsellers →</button>
+  </div>
+  <div class="hero-books">
+    <div class="mini-book" style="width:52px;height:110px;background:#3C3489;"><span>Dune</span></div>
+    <div class="mini-book" style="width:46px;height:130px;background:#085041;"><span>Midnight Library</span></div>
+    <div class="mini-book" style="width:54px;height:120px;background:#712B13;"><span>Atomic Habits</span></div>
+    <div class="mini-book" style="width:48px;height:105px;background:#3C3489;"><span>Fourth Wing</span></div>
+    <div class="mini-book" style="width:50px;height:125px;background:#72243E;"><span>Lessons in Chemistry</span></div>
+  </div>
+</div>
+
+<div class="main">
+  <div class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-label">Genre</div>
+      <div class="genre-item active" onclick="setGenre(this,'all')">All books <span class="genre-count">1,240</span></div>
+      <div class="genre-item" onclick="setGenre(this,'fiction')">Fiction <span class="genre-count">420</span></div>
+      <div class="genre-item" onclick="setGenre(this,'nonfiction')">Non-fiction <span class="genre-count">310</span></div>
+      <div class="genre-item" onclick="setGenre(this,'scifi')">Sci-fi & Fantasy <span class="genre-count">215</span></div>
+      <div class="genre-item" onclick="setGenre(this,'mystery')">Mystery & Thriller <span class="genre-count">180</span></div>
+      <div class="genre-item" onclick="setGenre(this,'biography')">Biography <span class="genre-count">95</span></div>
+      <div class="genre-item" onclick="setGenre(this,'children')">Children's <span class="genre-count">120</span></div>
+      <div class="genre-item" onclick="setGenre(this,'selfhelp')">Self-help <span class="genre-count">130</span></div>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Max price</div>
+      <div class="price-filter">
+        <input type="range" min="5" max="50" value="50" id="priceRange" oninput="updatePrice(this.value)" />
+        <div class="price-labels"><span>$5</span><span id="priceLabel">Up to $50</span></div>
+      </div>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Format</div>
+      <div class="genre-item active">Paperback</div>
+      <div class="genre-item">Hardcover</div>
+      <div class="genre-item">eBook</div>
+      <div class="genre-item">Audiobook</div>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="content-header">
+      <div class="results-label">Showing <strong id="resultCount">8</strong> books</div>
+      <select>
+        <option>Bestselling</option>
+        <option>Price: low to high</option>
+        <option>Price: high to low</option>
+        <option>Newest first</option>
+        <option>Avg. rating</option>
+      </select>
+    </div>
+    <div class="books-grid" id="booksGrid"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const books = [
+  { title: "Fourth Wing", author: "Rebecca Yarros", genre: "scifi", price: 18.99, oldPrice: null, rating: 4.8, reviews: 12400, color: "#3C3489", badge: "new" },
+  { title: "Atomic Habits", author: "James Clear", genre: "selfhelp", price: 14.99, oldPrice: 19.99, rating: 4.9, reviews: 89200, color: "#085041", badge: "sale" },
+  { title: "Dune", author: "Frank Herbert", genre: "scifi", price: 12.99, oldPrice: null, rating: 4.7, reviews: 45600, color: "#533A1B", badge: null },
+  { title: "The Midnight Library", author: "Matt Haig", genre: "fiction", price: 13.99, oldPrice: null, rating: 4.5, reviews: 23100, color: "#0F6E56", badge: null },
+  { title: "Lessons in Chemistry", author: "Bonnie Garmus", genre: "fiction", price: 16.99, oldPrice: 22.00, rating: 4.6, reviews: 18700, color: "#72243E", badge: "sale" },
+  { title: "The Thursday Murder Club", author: "Richard Osman", genre: "mystery", price: 11.99, oldPrice: null, rating: 4.4, reviews: 9800, color: "#3C3489", badge: null },
+  { title: "Spare", author: "Prince Harry", genre: "biography", price: 17.99, oldPrice: null, rating: 4.1, reviews: 31200, color: "#633806", badge: null },
+  { title: "It Ends with Us", author: "Colleen Hoover", genre: "fiction", price: 10.99, oldPrice: 15.99, rating: 4.3, reviews: 67400, color: "#993556", badge: "sale" },
+];
+
+let cart = 0, currentGenre = 'all', maxPrice = 50;
+
+function renderBooks() {
+  const filtered = books.filter(b => (currentGenre === 'all' || b.genre === currentGenre) && b.price <= maxPrice);
+  document.getElementById('resultCount').textContent = filtered.length;
+  document.getElementById('booksGrid').innerHTML = filtered.map((book, i) => `
+    <div class="book-card">
+      <div class="book-cover" style="background:${book.color}">
+        ${book.badge ? `<span class="badge badge-${book.badge}">${book.badge === 'new' ? 'New' : 'Sale'}</span>` : ''}
+        <span class="book-cover-title">${book.title}</span>
+      </div>
+      <div class="book-info">
+        <div class="book-author">${book.author}</div>
+        <div class="book-genre">${book.genre}</div>
+        <div class="rating">
+          <span class="stars">${'★'.repeat(Math.round(book.rating))}${'☆'.repeat(5-Math.round(book.rating))}</span>
+          <span class="rating-count">(${book.reviews.toLocaleString()})</span>
+        </div>
+        <div class="book-footer">
+          <div>
+            ${book.oldPrice ? `<span class="book-price-old">$${book.oldPrice.toFixed(2)}</span>` : ''}
+            <span class="book-price">$${book.price.toFixed(2)}</span>
+          </div>
+          <button class="add-btn" id="btn${i}" onclick="addToCart(${i},'${book.title}')">+</button>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function addToCart(i, title) {
+  cart++;
+  document.getElementById('cartCount').textContent = cart;
+  const btn = document.getElementById('btn' + i);
+  if (btn) { btn.classList.add('added'); btn.textContent = '✓'; }
+  showToast(`"${title}" added to cart`);
+  setTimeout(() => { if(btn){ btn.classList.remove('added'); btn.textContent = '+'; }}, 2000);
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+function setGenre(el, genre) {
+  document.querySelectorAll('.genre-item').forEach(g => g.classList.remove('active'));
+  el.classList.add('active'); currentGenre = genre; renderBooks();
+}
+
+function updatePrice(val) {
+  maxPrice = parseInt(val);
+  document.getElementById('priceLabel').textContent = val == 50 ? 'Up to $50' : `Up to $${val}`;
+  renderBooks();
+}
+
+renderBooks();
+</script>
+</body>
+</html>
