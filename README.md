@@ -1,38 +1,170 @@
-# Tale & Tea – Online Bookstore & Library Platform
+# 📚 BookStore Backend API
 
-Tale & Tea is a full-stack web application designed as a modern online bookstore and digital library platform. The project provides users with a smooth and responsive experience for browsing books, exploring categories, managing accounts, and handling authentication securely.
+## ⚡ Setup في 3 خطوات
 
-## Features
+### 1. قاعدة البيانات
+```sql
+-- افتح phpMyAdmin أو MySQL Workbench وشغّل:
+source database.sql
+```
 
-* User Registration & Login System
-* Secure Authentication using PHP & JWT
-* Browse Books by Categories
-* Dynamic Book Management with Database Integration
-* Responsive Modern UI using HTML, CSS, and JavaScript
-* RESTful API Structure
-* Account Dashboard
-* Wishlist & Order History Pages
-* Clean Folder Structure for Frontend and Backend Separation
+### 2. ضع الملفات
+```
+htdocs/bookstore/     ← XAMPP
+www/bookstore/        ← WAMP
+```
 
-## Technologies Used
+### 3. شغّل الـ API
+```
+http://localhost/bookstore/api/health
+```
+لازم ترجع:
+```json
+{"status":"success","message":"BookStore API is running 🚀"}
+```
 
-* Frontend: HTML, CSS, JavaScript
-* Backend: PHP
-* Database: MySQL
-* Server Environment: XAMPP / Apache
-* Authentication: JWT (JSON Web Token)
+---
 
-## Project Goal
+## 🔐 حسابات تجريبية
 
-The main goal of this project is to build a scalable and user-friendly online bookstore system while practicing full-stack web development concepts including database design, API development, authentication, and responsive UI design.
+| Role  | Email                  | Password  |
+|-------|------------------------|-----------|
+| Admin | admin@bookstore.com    | admin123  |
+| User  | ahmed@example.com      | user123   |
 
-## Future Improvements
+---
 
-* Shopping Cart & Payment Integration
-* Admin Dashboard
-* Book Search & Filtering
-* Reviews & Ratings System
-* Email Verification & Password Recovery
-* Deployment & Hosting
+## 📡 كل الـ Endpoints
 
-This project was built as a practical learning experience to strengthen backend development, database engineering, and frontend integration skills.
+### Auth
+| Method | Endpoint                    | Auth     | Description          |
+|--------|-----------------------------|----------|----------------------|
+| POST   | /api/auth/register          | ❌       | تسجيل مستخدم جديد   |
+| POST   | /api/auth/login             | ❌       | تسجيل دخول          |
+| GET    | /api/auth/me                | ✅ User  | بيانات المستخدم الحالي |
+| PUT    | /api/auth/me                | ✅ User  | تحديث البروفايل     |
+| POST   | /api/auth/change-password   | ✅ User  | تغيير كلمة المرور   |
+
+### Books
+| Method | Endpoint                    | Auth     | Description          |
+|--------|-----------------------------|----------|----------------------|
+| GET    | /api/books                  | ❌       | كل الكتب + بحث + فلتر |
+| GET    | /api/books/:id              | ❌       | تفاصيل كتاب         |
+| POST   | /api/books                  | ✅ Admin | إضافة كتاب          |
+| PUT    | /api/books/:id              | ✅ Admin | تعديل كتاب          |
+| DELETE | /api/books/:id              | ✅ Admin | حذف كتاب            |
+
+**Query Parameters for GET /api/books:**
+- `?search=harry` — البحث بالعنوان أو الكاتب
+- `?category_id=1` — فلتر بالتصنيف
+- `?min_price=10&max_price=50` — فلتر بالسعر
+- `?page=1&limit=10` — الـ Pagination
+
+### Categories
+| Method | Endpoint                    | Auth     |
+|--------|-----------------------------|----------|
+| GET    | /api/categories             | ❌       |
+| POST   | /api/categories             | ✅ Admin |
+| PUT    | /api/categories/:id         | ✅ Admin |
+| DELETE | /api/categories/:id         | ✅ Admin |
+
+### Cart
+| Method | Endpoint   | Auth    | Description           |
+|--------|------------|---------|-----------------------|
+| GET    | /api/cart  | ✅ User | عرض السلة            |
+| POST   | /api/cart  | ✅ User | إضافة كتاب للسلة    |
+| PUT    | /api/cart  | ✅ User | تحديث الكمية         |
+| DELETE | /api/cart  | ✅ User | حذف عنصر أو تفريغ السلة |
+
+### Orders
+| Method | Endpoint          | Auth    | Description           |
+|--------|-------------------|---------|-----------------------|
+| GET    | /api/orders       | ✅ User | سجل الطلبات          |
+| GET    | /api/orders/:id   | ✅ User | تفاصيل طلب           |
+| POST   | /api/orders       | ✅ User | إنشاء طلب من السلة   |
+
+### Admin
+| Method | Endpoint                    | Auth     | Description          |
+|--------|-----------------------------|----------|----------------------|
+| GET    | /api/admin/stats            | ✅ Admin | إحصائيات عامة       |
+| GET    | /api/admin/users            | ✅ Admin | كل المستخدمين       |
+| DELETE | /api/admin/users/:id        | ✅ Admin | حذف مستخدم          |
+| GET    | /api/admin/orders           | ✅ Admin | كل الطلبات           |
+| GET    | /api/admin/orders/:id       | ✅ Admin | تفاصيل طلب          |
+| PUT    | /api/admin/orders/:id       | ✅ Admin | تحديث حالة الطلب    |
+
+---
+
+## 🔑 استخدام الـ JWT Token
+
+بعد login أو register هيرجع `token`، ضيفه في كل request:
+
+```
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+```
+
+---
+
+## 📦 مثال Requests
+
+### Register
+```json
+POST /api/auth/register
+{
+  "name": "Mohamed Ali",
+  "email": "mo@example.com",
+  "password": "123456"
+}
+```
+
+### Add to Cart
+```json
+POST /api/cart
+Authorization: Bearer {token}
+{
+  "book_id": 1,
+  "quantity": 2
+}
+```
+
+### Place Order
+```json
+POST /api/orders
+Authorization: Bearer {token}
+{}
+```
+
+### Admin Update Order Status
+```json
+PUT /api/admin/orders/1
+Authorization: Bearer {admin_token}
+{
+  "status": "shipped"
+}
+```
+
+---
+
+## 📁 Folder Structure
+```
+bookstore/
+├── index.php           ← Router
+├── .htaccess           ← Clean URLs
+├── database.sql        ← Database setup
+├── config/
+│   ├── database.php    ← DB connection
+│   ├── jwt.php         ← Auth helpers
+│   └── helpers.php     ← Response helpers
+└── api/
+    ├── auth/
+    │   └── auth.php
+    ├── books/
+    │   ├── books.php
+    │   └── categories.php
+    ├── cart/
+    │   └── cart.php
+    ├── orders/
+    │   └── orders.php
+    └── admin/
+        └── admin.php
+```
